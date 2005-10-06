@@ -55,7 +55,7 @@ of this requirement becomes clear.
   >>> class Viewlet(object):
   ...     def __init__(self, *args): pass
   ...     title = 'Demo Viewlet'
-  ...     weight = 1
+  ...     weight = 5
   ...     def __call__(self, *args, **kw):
   ...         return 'viewlet content'
 
@@ -148,24 +148,12 @@ Finally we look up the view and render it:
   </html>
 
 
-Class-driven Viewlets
-~~~~~~~~~~~~~~~~~~~~~
-
-Let's now have a look into the steps involved to create a viewlet class from
-scratch. We also want to ensure that this viewlet always displays second and
-not before the first one. Here is a most simple implementation:
-
-  >>> from zope.app.publisher.browser import BrowserView
-  >>> class InfoViewlet(BrowserView):
-  ...     zope.interface.implements(interfaces.IViewlet, ILeftColumn)
-  ...     weight = 1
-  ...
-  ...     def __init__(self, context, request, view):
-  ...         super(InfoViewlet, self).__init__(context, request)
-  ...         self.view = view
-  ...
-  ...     def __call__(self):
-  ...         return u'<h3>Some Information.</h3>'
+  >>> class InfoViewlet(object):
+  ...     def __init__(self, *args): pass
+  ...     title = 'Info Viewlet'
+  ...     weight = 3
+  ...     def __call__(self, *args, **kw):
+  ...         return 'viewlet information'
 
   >>> defineChecker(InfoViewlet, viewletChecker)
 
@@ -175,13 +163,6 @@ not before the first one. Here is a most simple implementation:
   ...     ILeftColumn,
   ...     name='infoViewlet')
 
-
-
-  
-Note that you would commonly not state in the class itself that it
-implements a particular region, since it is usually done by the ZCML
-directive, which is introduced in `directives.zcml`.
-
 When we now render the view, the content of our info viewlet appears as well:
 
   >>> print view().strip()
@@ -190,14 +171,9 @@ When we now render the view, the content of our info viewlet appears as well:
       <h1>My Web Page</h1>
       <div class="left-column">
         <div class="column-item">
-  <BLANKLINE>
-          <div class="box">
-            Viewlet Title
-          </div>
-  <BLANKLINE>
-        </div>
+            viewlet information
         <div class="column-item">
-          <h3>Some Information.</h3>
+            viewlet content
         </div>
       </div>
       <div class="main">
