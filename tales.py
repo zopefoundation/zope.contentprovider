@@ -57,20 +57,20 @@ class TALESProvidersExpression(expressions.StringExpr):
         region = getRegion(self._s)
 
         # Find the viewlets
-        viewletManager = zope.component.queryMultiAdapter(
-            (context, request, view), interfaces.IViewletManager)
-        if viewletManager is None:
-            viewletManager = manager.DefaultViewletManager(
+        cpManager = zope.component.queryMultiAdapter(
+            (context, request, view), interfaces.IContentProviderManager)
+        if cpManager is None:
+            cpManager = manager.DefaultContentProviderManager(
                 context, request, view)
 
-        viewlets = viewletManager.getViewlets(region)
+        providers = cpManager.values(region)
 
         # Insert the data gotten from the context
         data = getRegionFieldData(region, econtext)
-        for viewlet in viewlets:
-            viewlet.__dict__.update(data)
+        for provider in providers:
+            provider.__dict__.update(data)
 
-        return viewlets
+        return providers
 
 
 class TALESProviderExpression(expressions.StringExpr):

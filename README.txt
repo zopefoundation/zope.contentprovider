@@ -52,14 +52,17 @@ they appear in. Also, the viewlet must *provide* the region interface it is
 filling; we will demonstrate a more advanced example later, where the purpose
 of this requirement becomes clear.
 
-  >>> class TestViewlet(object):
+  >>> class Viewlet(object):
+  ...     def __init__(self, *args): pass
   ...     title = 'Demo Viewlet'
   ...     weight = 1
   ...     def __call__(self, *args, **kw):
   ...         return 'viewlet content'
 
-  >>> Viewlet = TestViewlet()
-
+  # Generate a viewlet checker
+  >>> from zope.security.checker import NamesChecker, defineChecker
+  >>> viewletChecker = NamesChecker(('__call__', 'weight', 'title',))
+  >>> defineChecker(Viewlet, viewletChecker)
   
   # Register the viewlet with component architecture
   >>> from zope.publisher.interfaces.browser import IDefaultBrowserLayer
@@ -135,11 +138,7 @@ Finally we look up the view and render it:
       <h1>My Web Page</h1>
       <div class="left-column">
         <div class="column-item">
-  <BLANKLINE>
-          <div class="box">
-            Viewlet Title
-          </div>
-  <BLANKLINE>
+          viewlet content
         </div>
       </div>
       <div class="main">
@@ -323,7 +322,7 @@ like to allow various columns that are controlled by viewlets:
   ...     <h1>Contents</h1>
   ...     <table>
   ...       <tr tal:repeat="item view/objectInfo">
-  ...         <td tal:repeat="column viewlets:webpage.ObjectInfoColumn"
+  ...         <td tal:repeat="column providers:webpage.ObjectInfoColumn"
   ...             tal:content="structure column" />
   ...       </tr>
   ...     </table>
