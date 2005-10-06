@@ -33,16 +33,17 @@ class DefaultContentProviderManager(object):
     """
     zope.interface.implements(interfaces.IContentProviderManager)
 
-    def __init__(self, context, request, view, region=None):
+    def __init__(self, context, request, view, region):
         self.context = context
         self.request = request
         self.view = view
         self.region = region
 
 
-    def values(self, region):
+    def values(self):
         """See zope.app.viewlet.interfaces.IViewletManager"""
         # Find all viewlets for this region
+        region = self.region
         viewlets = zope.component.getAdapters(
             (self.context, self.request, self.view), region)
         # Sort out all viewlets that cannot be accessed by the principal
@@ -54,9 +55,10 @@ class DefaultContentProviderManager(object):
         return viewlets
 
 
-    def __getitem__(self, name, region):
+    def __getitem__(self, name):
         """See zope.app.viewlet.interfaces.IViewletManager"""
         # Find the viewlet
+        region = self.region
         viewlet = zope.component.queryMultiAdapter(
             (self.context, self.request, self.view), region, name=name)
 

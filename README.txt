@@ -398,21 +398,21 @@ Now let's have a look at the resulting view:
   </html>
 
 
-Viewlet Managers
-----------------
+Content Provider Managers
+-------------------------
 
 Until now we have always asserted that the viewlets returned by the TALES
-namespaces ``viewlets`` and ``viewlet`` always find the viewlets in the
+namespaces ``providers`` and ``provider`` always find the viewlets in the
 component architecture and then return them ordered by weight. This, however,
 is just the default policy. We could also register an alternative policy that
 has different rules on looking up, filtering and sorting the viewlets. The
 objects that implement those policies are known as viewlet managers.
 
-Viewlet managers are usually implemented as adapters from the context, request
-and view to the ``IViewletManager`` interface. They must implement two
-methods. The first one is ``getViewlets(region)``, which returns a list of
-viewlets for the specified region. The region argument is the region
-interface. The second method is ``getViewlet(name, region)``, which allows you
+Content provider managers are usually implemented as adapters from the context,
+request, view and region to the ``IContentProviderManager`` interface. They
+must implement two methods. The first one is ``values()``, which returns a list
+of viewlets for the specified region. The region argument is the region
+interface. The second method is ``__getitem__(name)``, which allows you
 to look up a specific viewlet by name and region.
 
 
@@ -424,11 +424,11 @@ functionality we took for granted until now. Initializing the manager
 
   >>> from zope.contentprovider import manager
   >>> defaultManager = manager.DefaultContentProviderManager(
-  ...     content, request, FrontPage(content, request))
+  ...     content, request, FrontPage(content, request), ILeftColumn)
 
 we can now get a list of viewlets:
 
-  >>> defaultManager.values(ILeftColumn)
+  >>> defaultManager.values()
   [<InfoViewlet object at ...>,
    <Viewlet object at ...>]
 
@@ -450,14 +450,14 @@ declarations, then it is ignored:
   ...     ILeftColumn,
   ...     name='unauthorized')
 
-  >>> len(defaultManager.values(ILeftColumn))
+  >>> len(defaultManager.values())
   2
 
 Also, when you try to look up the unauthorized viewlet by name you will get an
 exception telling you that you have insufficient priviledges to access the
 viewlet:
 
-  >>> defaultManager.__getitem__('unauthorized', ILeftColumn)
+  >>> defaultManager.__getitem__('unauthorized')
   Traceback (most recent call last):
   ...
   Unauthorized: You are not authorized to access the viewlet
@@ -466,7 +466,7 @@ viewlet:
 When looking for a particular viewlet, you also get an exception, if none is
 found:
 
-  >>> defaultManager.__getitem__('unknown', ILeftColumn)
+  >>> defaultManager.__getitem__('unknown')
   Traceback (most recent call last):
   ...
   ComponentLookupError: 'No viewlet with name `unknown` found.'
@@ -487,9 +487,9 @@ So our custom viewlet manager could look something like this:
 
   >>> class ContentsContentProviderManager(manager.DefaultContentProviderManager):
   ...
-  ...     def values(self, region):
+  ...     def values(self):
   ...         viewlets = zope.component.getAdapters(
-  ...             (self.context, self.request, self.view), region)
+  ...             (self.context, self.request, self.view), self.region)
   ...         viewlets = [(name, viewlet) for name, viewlet in viewlets
   ...                     if name in showColumns]
   ...         viewlets.sort(lambda x, y: cmp(showColumns.index(x[0]),
@@ -500,7 +500,7 @@ We just have to register it as an adapter:
 
   >>> zope.component.provideAdapter(
   ...     ContentsContentProviderManager,
-  ...     (zope.interface.Interface, IDefaultBrowserLayer, IBrowserView),
+  ...     (zope.interface.Interface, IDefaultBrowserLayer, IBrowserView, ILeftColumn),
   ...     interfaces.IContentProviderManager)
 
   >>> view = zope.component.getMultiAdapter(
@@ -547,7 +547,7 @@ it will provide the columns in a different order as well:
 
 On the other hand, it is as easy to remove a column:
 
-  >>> showColumns = ['name']
+  >>> showColumns = ['name', 'size']
   >>> print view().strip()
   <html>
     <body>

@@ -27,7 +27,6 @@ from zope.app.testing import setup
 from zope.contentprovider import interfaces
 
 
-
 class TestParticipation(object):
     principal = 'foobar'
     interaction = None
