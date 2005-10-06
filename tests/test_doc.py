@@ -27,22 +27,6 @@ from zope.app.testing import setup
 from zope.contentprovider import interfaces
 
 
-class TestViewlet(object):
-
-    def doSomething(self):
-        return u'something'
-
-
-class TestViewlet2(object):
-
-    def __call__(self):
-        return u'called'
-
-
-class ITestRegion(zope.interface.Interface):
-    '''A region for testing purposes.'''
-zope.interface.directlyProvides(ITestRegion, interfaces.IRegion)
-
 
 class TestParticipation(object):
     principal = 'foobar'
