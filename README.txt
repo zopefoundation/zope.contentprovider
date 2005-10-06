@@ -55,7 +55,7 @@ of this requirement becomes clear.
   >>> class Viewlet(object):
   ...     def __init__(self, *args): pass
   ...     title = 'Demo Viewlet'
-  ...     weight = 5
+  ...     weight = 1
   ...     def __call__(self, *args, **kw):
   ...         return 'viewlet content'
 
@@ -171,9 +171,10 @@ When we now render the view, the content of our info viewlet appears as well:
       <h1>My Web Page</h1>
       <div class="left-column">
         <div class="column-item">
-            viewlet information
-        <div class="column-item">
             viewlet content
+        </div>
+        <div class="column-item">
+            viewlet information
         </div>
       </div>
       <div class="main">
@@ -190,7 +191,7 @@ Let's ensure that the weight really affects the order of the viewlets. If we
 change the weights around,
 
   >>> InfoViewlet.weight = 0
-  >>> Viewlet._weight = 1
+  >>> Viewlet.weight = 1
 
 the order of the left column in the page template should change:
 
@@ -200,14 +201,10 @@ the order of the left column in the page template should change:
       <h1>My Web Page</h1>
       <div class="left-column">
         <div class="column-item">
-          <h3>Some Information.</h3>
+            viewlet information
         </div>
         <div class="column-item">
-  <BLANKLINE>
-          <div class="box">
-            Viewlet Title
-          </div>
-  <BLANKLINE>
+            viewlet content
         </div>
       </div>
       <div class="main">
@@ -235,7 +232,7 @@ Since everything else is already set up, we can simply register a new view:
   ...     <div class="left-column">
   ...       <div class="column-item">
   ...         <tal:block
-  ...           replace="structure viewlet:webpage.LeftColumn/viewlet" />
+  ...           replace="structure provider:webpage.LeftColumn/viewlet" />
   ...       </div>
   ...     </div>
   ...   </body>
@@ -257,11 +254,7 @@ Since everything else is already set up, we can simply register a new view:
       <h1>My Web Page - Take 2</h1>
       <div class="left-column">
         <div class="column-item">
-  <BLANKLINE>
-          <div class="box">
-            Viewlet Title
-          </div>
-  <BLANKLINE>
+            viewlet content
         </div>
       </div>
     </body>
@@ -339,12 +332,13 @@ the page template:
 
 Next we implement two very simple viewlets, one displaying the name
 
+  >>> from zope.app.publisher.browser import BrowserView
+  
   >>> class NameColumnViewlet(BrowserView):
-  ...     zope.interface.implements(interfaces.IViewlet, IObjectInfoColumn)
+  ...     zope.interface.implements(IObjectInfoColumn)
   ...     weight = 0
   ...
   ...     def __init__(self, context, request, view):
-  ...         super(NameColumnViewlet, self).__init__(context, request)
   ...         self.view = view
   ...
   ...     def __call__(self):
@@ -361,11 +355,10 @@ Next we implement two very simple viewlets, one displaying the name
 ... and the other displaying the size of the of objects in the list:
 
   >>> class SizeColumnViewlet(BrowserView):
-  ...     zope.interface.implements(interfaces.IViewlet, IObjectInfoColumn)
+  ...     zope.interface.implements(IObjectInfoColumn)
   ...     weight = 1
   ...
   ...     def __init__(self, context, request, view):
-  ...         super(SizeColumnViewlet, self).__init__(context, request)
   ...         self.view = view
   ...
   ...     def __call__(self):
@@ -420,21 +413,21 @@ interface. The second method is ``getViewlet(name, region)``, which allows you
 to look up a specific viewlet by name and region.
 
 
-The Default Viewlet Manager
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The Default Content Provider Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Let's first have a close look at the default view manager, whose functionality
-we took for granted until now. Initializing the manager
+Let's first have a close look at the default content provider manager, whose
+functionality we took for granted until now. Initializing the manager
 
-  >>> from zope.app.viewlet import manager
-  >>> defaultManager = manager.DefaultViewletManager(
+  >>> from zope.contentprovider import manager
+  >>> defaultManager = manager.DefaultContentProviderManager(
   ...     content, request, FrontPage(content, request))
 
 we can now get a list of viewlets:
 
-  >>> defaultManager.getViewlets(ILeftColumn)
+  >>> defaultManager.values(ILeftColumn)
   [<InfoViewlet object at ...>,
-   <zope.app.viewlet.viewlet.SimpleViewletClass from ...viewlet.pt object ...>]
+   <Viewlet object at ...>]
 
 The default manager also filters out all viewlets for which the current user
 is not authorized. So, if I create a viewlet that has no security
@@ -454,14 +447,14 @@ declarations, then it is ignored:
   ...     ILeftColumn,
   ...     name='unauthorized')
 
-  >>> len(defaultManager.getViewlets(ILeftColumn))
+  >>> len(defaultManager.values(ILeftColumn))
   2
 
 Also, when you try to look up the unauthorized viewlet by name you will get an
 exception telling you that you have insufficient priviledges to access the
 viewlet:
 
-  >>> defaultManager.getViewlet('unauthorized', ILeftColumn)
+  >>> defaultManager.__getitem__('unauthorized', ILeftColumn)
   Traceback (most recent call last):
   ...
   Unauthorized: You are not authorized to access the viewlet
@@ -470,14 +463,14 @@ viewlet:
 When looking for a particular viewlet, you also get an exception, if none is
 found:
 
-  >>> defaultManager.getViewlet('unknown', ILeftColumn)
+  >>> defaultManager.__getitem__('unknown', ILeftColumn)
   Traceback (most recent call last):
   ...
   ComponentLookupError: 'No viewlet with name `unknown` found.'
 
 
-An Alternative Viewlet Manager
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+An Alternative Content Provider Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Let's now imagine that we would like to allow the user to choose the columns
 for the contents view. Here it would not be enough to implement a condition as
@@ -489,9 +482,9 @@ manager that only returns the viewlets that are specified in an option:
 
 So our custom viewlet manager could look something like this:
 
-  >>> class ContentsViewletManager(manager.DefaultViewletManager):
+  >>> class ContentsContentProviderManager(manager.DefaultContentProviderManager):
   ...
-  ...     def getViewlets(self, region):
+  ...     def values(self, region):
   ...         viewlets = zope.component.getAdapters(
   ...             (self.context, self.request, self.view), region)
   ...         viewlets = [(name, viewlet) for name, viewlet in viewlets
@@ -503,9 +496,9 @@ So our custom viewlet manager could look something like this:
 We just have to register it as an adapter:
 
   >>> zope.component.provideAdapter(
-  ...     ContentsViewletManager,
+  ...     ContentsContentProviderManager,
   ...     (zope.interface.Interface, IDefaultBrowserLayer, IBrowserView),
-  ...     interfaces.IViewletManager)
+  ...     interfaces.IContentProviderManager)
 
   >>> view = zope.component.getMultiAdapter(
   ...     (content, request), name='contents.html')
