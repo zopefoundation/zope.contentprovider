@@ -500,7 +500,8 @@ We just have to register it as an adapter:
 
   >>> zope.component.provideAdapter(
   ...     ContentsContentProviderManager,
-  ...     (zope.interface.Interface, IDefaultBrowserLayer, IBrowserView, ILeftColumn),
+  ...     (zope.interface.Interface, IDefaultBrowserLayer, IBrowserView,
+  ...      IObjectInfoColumn),
   ...     interfaces.IContentProviderManager)
 
   >>> view = zope.component.getMultiAdapter(

@@ -65,7 +65,7 @@ class TALESProvidersExpression(expressions.StringExpr):
         lookup = ISiteManager(context).adapters.lookup
         cpManagerClass = lookup(map(providedBy, objs)+[region], iface, name='')
         if cpManagerClass is not None:
-            cpManager = cpManager(context, request, view, region)
+            cpManager = cpManagerClass(context, request, view, region)
             
         if cpManager is None:
             cpManager = manager.DefaultContentProviderManager(
