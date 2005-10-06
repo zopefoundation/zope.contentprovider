@@ -20,7 +20,7 @@ import zope.interface
 import zope.component
 from zope.tales import expressions
 
-from zope.app.viewlet import interfaces, manager
+from zope.contentprovider import interfaces, manager
 
 
 def getRegion(str):

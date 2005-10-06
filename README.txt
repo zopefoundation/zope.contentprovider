@@ -1,11 +1,11 @@
-========
-Viewlets
-========
+=================
+Content Providers
+=================
 
 This package provides a framework to develop componentized Web GUI
 applications. Instead of describing the content of a page using a single
 template or static system of templates and METAL macros, page regions can be
-defined and are filled dynamically with content (viewlets) based on the setup
+defined and are filled dynamically with content based on the setup
 of the application.
 
 
@@ -29,14 +29,14 @@ interfaces that act as content placeholders. Here is a common setup:
   >>> class ILeftColumn(zope.interface.Interface):
   ...     '''The left column of a Web site.'''
 
-  >>> from zope.app.viewlet import interfaces
+  >>> from zope.contentprovider import interfaces
   >>> zope.interface.directlyProvides(ILeftColumn, interfaces.IRegion)
 
   >>> import zope.component
   >>> zope.component.provideUtility(ILeftColumn, interfaces.IRegion,
   ...                               'webpage.LeftColumn')
 
-It is important that the region interface provides the ``IRegion``
+It is important that the region provides the ``IRegion``
 interface and that it is registered as a utility providing
 ``IRegion``. If omitted, the framework will be unable to find the
 region later.
@@ -52,38 +52,15 @@ they appear in. Also, the viewlet must *provide* the region interface it is
 filling; we will demonstrate a more advanced example later, where the purpose
 of this requirement becomes clear.
 
-Like regular views, viewlets can either use page templates to provide content
-or provide a simple ``__call__`` method. For our first viewlet, let's develop
-a more commonly used page-template-driven viewlet:
+  >>> class TestViewlet(object):
+  ...     title = 'Demo Viewlet'
+  ...     weight = 1
+  ...     def __call__(self, *args, **kw):
+  ...         return 'viewlet content'
 
-  >>> import os, tempfile
-  >>> temp_dir = tempfile.mkdtemp()
+  >>> Viewlet = TestViewlet()
 
-  >>> viewletFileName = os.path.join(temp_dir, 'viewlet.pt')
-  >>> open(viewletFileName, 'w').write('''
-  ...         <div class="box">
-  ...           <tal:block replace="viewlet/title" />
-  ...         </div>
-  ... ''')
-
-  >>> class ViewletBase(object):
-  ...     def title(self):
-  ...         return 'Viewlet Title'
-
-As you can see, the viewlet Python object is known as ``viewlet`` inside the
-template, while the view object is still available as ``view``. Next we build
-and register the viewlet using a special helper function:
-
-  # Create the viewlet class
-  >>> from zope.app.viewlet import viewlet
-  >>> Viewlet = viewlet.SimpleViewletClass(
-  ...     viewletFileName, bases=(ViewletBase,), name='viewlet')
-
-  # Generate a viewlet checker
-  >>> from zope.security.checker import NamesChecker, defineChecker
-  >>> viewletChecker = NamesChecker(('__call__', 'weight', 'title',))
-  >>> defineChecker(Viewlet, viewletChecker)
-
+  
   # Register the viewlet with component architecture
   >>> from zope.publisher.interfaces.browser import IDefaultBrowserLayer
   >>> from zope.app.publisher.interfaces.browser import IBrowserView
@@ -93,10 +70,6 @@ and register the viewlet using a special helper function:
   ...     ILeftColumn,
   ...     name='viewlet')
 
-As you can see from the security checker registration, a viewlet provides also
-a weight, which acts as a hint to determine the order in which the viewlets of
-a region should be displayed. The view the viewlet is used in can also be
-accessed via the ``view`` attribute of the viewlet class.
 
 
 Creating the View
@@ -105,6 +78,8 @@ Creating the View
 Now that we have a region with a viewlet registered for it, let's use it by
 creating the front page of our Web Site:
 
+  >>> import os, tempfile
+  >>> temp_dir = tempfile.mkdtemp()
   >>> templateFileName = os.path.join(temp_dir, 'template.pt')
   >>> open(templateFileName, 'w').write('''
   ... <html>
@@ -112,7 +87,7 @@ creating the front page of our Web Site:
   ...     <h1>My Web Page</h1>
   ...     <div class="left-column">
   ...       <div class="column-item"
-  ...            tal:repeat="viewlet viewlets:webpage.LeftColumn">
+  ...            tal:repeat="viewlet providers:webpage.LeftColumn">
   ...         <tal:block replace="structure viewlet" />
   ...       </div>
   ...     </div>
@@ -202,6 +177,8 @@ not before the first one. Here is a most simple implementation:
   ...     name='infoViewlet')
 
 
+
+  
 Note that you would commonly not state in the class itself that it
 implements a particular region, since it is usually done by the ZCML
 directive, which is introduced in `directives.zcml`.

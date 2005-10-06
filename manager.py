@@ -21,7 +21,7 @@ import zope.component
 import zope.interface
 import zope.security
 
-from zope.viewlet import interfaces
+from zope.contentprovider import interfaces
 
 
 class DefaultContentProviderManager(object):
@@ -31,7 +31,7 @@ class DefaultContentProviderManager(object):
     sorts the viewlet list by weight. Viewlets that are not accessible in the
     context of this request will also be filtered.
     """
-    zope.interface.implements(interfaces.IViewletManager)
+    zope.interface.implements(interfaces.IContentProviderManager)
 
     def __init__(self, context, request, view):
         self.context = context
