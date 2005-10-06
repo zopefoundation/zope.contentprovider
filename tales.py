@@ -18,8 +18,10 @@ $Id$
 __docformat__ = 'restructuredtext'
 import zope.interface
 import zope.component
+from zope.component.interfaces import ISiteManager
 from zope.tales import expressions
 
+from zope.interface.declarations import providedBy
 from zope.contentprovider import interfaces, manager
 
 
@@ -56,12 +58,20 @@ class TALESProvidersExpression(expressions.StringExpr):
         # get the region from the expression
         region = getRegion(self._s)
 
-        # Find the viewlets
-        cpManager = zope.component.queryMultiAdapter(
-            (context, request, view), interfaces.IContentProviderManager)
+        cpManager = None
+        res = []
+        iface = interfaces.IContentProviderManager
+        objs = (context, request, view)
+        lookup = ISiteManager(context).adapters.lookup
+        cpManagerClass = lookup(map(providedBy, objs)+[region], iface, name='')
+        if cpManagerClass is not None:
+            cpManager = cpManager(context, request, view, region)
+            
+
         if cpManager is None:
             cpManager = manager.DefaultContentProviderManager(
                 context, request, view, region)
+
 
         providers = cpManager.values(region)
         #providers = cpManager.values()
