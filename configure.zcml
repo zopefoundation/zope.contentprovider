@@ -1,19 +1,18 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:tales="http://namespaces.zope.org/tales"
-    i18n_domain="zope"
-    >
+    i18n_domain="zope">
 
-  <interface interface=".interfaces.ITALESViewletsExpression" />
+  <interface interface=".interfaces.ITALESProvidersExpression" />
   <tales:expressiontype
-      name="viewlets"
-      handler=".tales.TALESViewletsExpression"
+      name="providers"
+      handler=".tales.TALESProviderExpression"
       />
 
-  <interface interface=".interfaces.ITALESViewletExpression" />
+  <interface interface=".interfaces.ITALESProviderExpression" />
   <tales:expressiontype
-      name="viewlet"
-      handler=".tales.TALESViewletExpression"
+      name="provider"
+      handler=".tales.TALESProviderExpression"
       />
 
 </configure>

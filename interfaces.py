@@ -26,24 +26,25 @@ from zope.app.i18n import ZopeMessageIDFactory as _
 from zope.app.publisher.interfaces.browser import IBrowserView
 
 
-class ViewletRegionLookupError(zope.component.ComponentLookupError):
-    """Viewlet region object not found."""
+class RegionLookupError(zope.component.ComponentLookupError):
+    """Region object not found."""
 
 
 class IRegion(zope.interface.interfaces.IInterface):
     """Type interface for viewlet regions.
 
     Region interfaces specify the environment variables that are available to
-    the viewlet. How those variables are provided is up to the implementation.
+    the IContentProvider. How those variables are provided is up to the 
+    implementation.
     """
 
 
-class IViewlet(IBrowserView):
+class IContentProvider(IBrowserView):
     """A piece of content of a page.
 
-    Viewlets are objects that can fill the region specified in a page, most
-    often page templates. They are selected by the context, request and
-    view. All viewlets of a particular region must also provide the region
+    Content provider are objects that can fill the region specified in a 
+    page, most often page templates. They are selected by the context, request 
+    and view. All viewlets of a particular region must also provide the region
     interface.
     """
 
@@ -59,7 +60,7 @@ class IViewlet(IBrowserView):
         default=0)
 
 
-class IViewletManager(zope.interface.Interface):
+class IContentProviderManager(zope.interface.Interface):
     """An object that provides access to the viewlets.
 
     The viewlets are of a particular context, request and view configuration
@@ -76,17 +77,21 @@ class IViewletManager(zope.interface.Interface):
     request = zope.interface.Attribute(
         'The request of the view the viewlet is used in.')
 
-    def getViewlets(region):
+# TODO: implement dummy object providing the region or lookup hook
+#    region = zope.interface.Attribute(
+#        'The request of the view the viewlet is used in.')
+
+    def values(region):
         """Get all available viewlets of the given region.
 
         This method is responsible for sorting the viewlets as well.
         """
 
-    def getViewlet(self, name, region):
+    def __getitem__(self, name, region):
         """Get a particular viewlet of a region selected by name."""
 
 
-class ITALESViewletsExpression(interfaces.ITALESExpression):
+class ITALESProvidersExpression(interfaces.ITALESExpression):
     """TAL namespace for getting a list of viewlets.
 
     To call viewlets in a view use the the following syntax in a page
@@ -101,7 +106,7 @@ class ITALESViewletsExpression(interfaces.ITALESExpression):
     """
 
 
-class ITALESViewletExpression(interfaces.ITALESExpression):
+class ITALESProviderExpression(interfaces.ITALESExpression):
     """TAL namespace for getting a single viewlet.
 
     To call a named viewlet in a view use the the following syntax in a page

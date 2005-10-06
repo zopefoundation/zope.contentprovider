@@ -11,7 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Viewlet tales expression registrations
+"""Provider tales expression registrations
 
 $Id$
 """
@@ -43,10 +43,10 @@ def getRegionFieldData(region, context):
     return data
 
 
-class TALESViewletsExpression(expressions.StringExpr):
-    """Collect viewlets via a TAL namespace called `viewlets`."""
+class TALESProvidersExpression(expressions.StringExpr):
+    """Collect content provider via a TAL namespace."""
 
-    zope.interface.implements(interfaces.ITALESViewletsExpression)
+    zope.interface.implements(interfaces.ITALESProvidersExpression)
 
     def __call__(self, econtext):
         context = econtext.vars['context']
@@ -73,10 +73,10 @@ class TALESViewletsExpression(expressions.StringExpr):
         return viewlets
 
 
-class TALESViewletExpression(expressions.StringExpr):
-    """Collects a single viewlet via a TAL namespace called viewlet."""
+class TALESProviderExpression(expressions.StringExpr):
+    """Collects a single content provider via a TAL namespace."""
 
-    zope.interface.implements(interfaces.ITALESViewletExpression)
+    zope.interface.implements(interfaces.ITALESProviderExpression)
 
     def __init__(self, name, expr, engine):
         if not '/' in expr:

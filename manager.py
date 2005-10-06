@@ -21,11 +21,11 @@ import zope.component
 import zope.interface
 import zope.security
 
-from zope.app.viewlet import interfaces
+from zope.viewlet import interfaces
 
 
-class DefaultViewletManager(object):
-    """The Default Viewlet Manager
+class DefaultContentProviderManager(object):
+    """The Default ContentProvider Manager
 
     This implementation looks up all viewlets from the adapter registry and
     sorts the viewlet list by weight. Viewlets that are not accessible in the
@@ -39,7 +39,7 @@ class DefaultViewletManager(object):
         self.view = view
 
 
-    def getViewlets(self, region):
+    def values(self, region):
         """See zope.app.viewlet.interfaces.IViewletManager"""
         # Find all viewlets for this region
         viewlets = zope.component.getAdapters(
@@ -53,7 +53,7 @@ class DefaultViewletManager(object):
         return viewlets
 
 
-    def getViewlet(self, name, region):
+    def __getitem__(self, name, region):
         """See zope.app.viewlet.interfaces.IViewletManager"""
         # Find the viewlet
         viewlet = zope.component.queryMultiAdapter(
