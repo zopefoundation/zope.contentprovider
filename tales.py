@@ -61,9 +61,10 @@ class TALESProvidersExpression(expressions.StringExpr):
             (context, request, view), interfaces.IContentProviderManager)
         if cpManager is None:
             cpManager = manager.DefaultContentProviderManager(
-                context, request, view)
+                context, request, view, region)
 
         providers = cpManager.values(region)
+        #providers = cpManager.values()
 
         # Insert the data gotten from the context
         data = getRegionFieldData(region, econtext)
@@ -103,9 +104,10 @@ class TALESProviderExpression(expressions.StringExpr):
             (context, request, view), interfaces.IContentProviderManager)
         if cpManager is None:
             cpManager = manager.DefaultContentProviderManager(
-                context, request, view)
+                context, request, view, region)
 
         provider = cpManager.__getitem__(self._name, region)
+        #provider = cpManager[self._name]
 
         # Insert the data gotten from the context
         data = getRegionFieldData(region, econtext)

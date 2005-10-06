@@ -33,10 +33,11 @@ class DefaultContentProviderManager(object):
     """
     zope.interface.implements(interfaces.IContentProviderManager)
 
-    def __init__(self, context, request, view):
+    def __init__(self, context, request, view, region=None):
         self.context = context
         self.request = request
         self.view = view
+        self.region = region
 
 
     def values(self, region):

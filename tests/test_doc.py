@@ -24,7 +24,7 @@ from zope.testing import doctest
 from zope.testing.doctestunit import DocTestSuite, DocFileSuite
 from zope.app.testing import setup
 
-from zope.app.viewlet import interfaces
+from zope.contentprovider import interfaces
 
 
 class TestViewlet(object):

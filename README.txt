@@ -148,6 +148,9 @@ Finally we look up the view and render it:
   </html>
 
 
+More than one View
+~~~~~~~~~~~~~~~~~~
+
   >>> class InfoViewlet(object):
   ...     def __init__(self, *args): pass
   ...     title = 'Info Viewlet'
