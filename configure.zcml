@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:tales="http://namespaces.zope.org/tales"
+    i18n_domain="zope"
+    >
+
+  <interface interface=".interfaces.ITALESViewletsExpression" />
+  <tales:expressiontype
+      name="viewlets"
+      handler=".tales.TALESViewletsExpression"
+      />
+
+  <interface interface=".interfaces.ITALESViewletExpression" />
+  <tales:expressiontype
+      name="viewlet"
+      handler=".tales.TALESViewletExpression"
+      />
+
+</configure>
