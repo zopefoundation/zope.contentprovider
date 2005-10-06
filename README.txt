@@ -547,7 +547,7 @@ it will provide the columns in a different order as well:
 
 On the other hand, it is as easy to remove a column:
 
-  >>> showColumns = ['name', 'size']
+  >>> showColumns = ['name']
   >>> print view().strip()
   <html>
     <body>
