@@ -88,19 +88,20 @@ class TALESProviderExpression(expressions.StringExpr):
 
     zope.interface.implements(interfaces.ITALESProviderExpression)
 
-    def __init__(self, name, expr, engine):
+    def __call__(self, econtext):
+        expr = super(TALESProviderExpression, self).__call__(econtext)
         if not '/' in expr:
             raise KeyError('Use `iface/key` for defining the provider.')
 
         parts = expr.split('/')
         if len(parts) > 2:
-            raise KeyError("Do not use more then one / for defining iface/key.")
+            msg = "Do not use more then one '/' for defining iface/key."
+            raise KeyError(msg)
 
         # get interface from key
         self._iface = parts[0]
         self._name = parts[1]
 
-    def __call__(self, econtext):
         context = econtext.vars['context']
         request = econtext.vars['request']
         view = econtext.vars['view']
