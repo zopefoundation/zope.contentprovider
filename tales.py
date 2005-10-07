@@ -33,7 +33,7 @@ def getRegion(str):
     region = zope.component.queryUtility(interfaces.IRegion, name=str)
     if region is None:
         raise interfaces.ViewletRegionLookupError(
-            'Viewlet region interface not found.', str)
+            'Provider region interface not found.', str)
     return region
 
 
@@ -90,7 +90,7 @@ class TALESProviderExpression(expressions.StringExpr):
 
     def __init__(self, name, expr, engine):
         if not '/' in expr:
-            raise KeyError('Use `iface/viewletname` for defining the viewlet.')
+            raise KeyError('Use `iface/key` for defining the provider.')
 
         parts = expr.split('/')
         if len(parts) > 2:

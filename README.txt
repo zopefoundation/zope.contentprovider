@@ -466,7 +466,7 @@ viewlet:
   >>> defaultManager.__getitem__('unauthorized')
   Traceback (most recent call last):
   ...
-  Unauthorized: You are not authorized to access the viewlet
+  Unauthorized: You are not authorized to access the provider
                 called `unauthorized`.
 
 When looking for a particular viewlet, you also get an exception, if none is
@@ -475,7 +475,7 @@ found:
   >>> defaultManager.__getitem__('unknown')
   Traceback (most recent call last):
   ...
-  ComponentLookupError: 'No viewlet with name `unknown` found.'
+  ComponentLookupError: 'No provider with name `unknown` found.'
 
 
 An Alternative Content Provider Manager
