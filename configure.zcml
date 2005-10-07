@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:tales="http://namespaces.zope.org/tales"
+    i18n_domain="zope">
+
+  <interface interface=".interfaces.ITALESProvidersExpression" />
+  <tales:expressiontype
+      name="providers"
+      handler=".tales.TALESProvidersExpression"
+      />
+
+  <interface interface=".interfaces.ITALESProviderExpression" />
+  <tales:expressiontype
+      name="provider"
+      handler=".tales.TALESProviderExpression"
+      />
+
+</configure>
