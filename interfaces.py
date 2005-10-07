@@ -48,15 +48,6 @@ class IContentProvider(zope.interface.Interface):
     the corresponding region interface.
     """
 
-    context = zope.interface.Attribute(
-        'The context the content provider is used for.')
-
-    request = zope.interface.Attribute(
-        'The request the content provider is used in.')
-
-    view = zope.interface.Attribute(
-        'The view the content provider is used in.')
-
     weight = zope.schema.Int(
         title=_(u'weight'),
         description=_(u"""

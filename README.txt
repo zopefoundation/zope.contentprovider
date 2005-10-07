@@ -157,7 +157,7 @@ More than one View
 
   >>> class InfoViewlet(object):
   ...     zope.interface.implements(interfaces.IContentProvider)
-  ...     def __init__(self, *args):
+  ...     def __init__(self, context, request,view):
   ...         pass
   ...     title = 'Info Viewlet'
   ...     weight = 3
@@ -196,8 +196,8 @@ When we now render the view, the content of our info viewlet appears as well:
 Changing the Weight
 ~~~~~~~~~~~~~~~~~~~
 
-Let's ensure that the weight really affects the order of the viewlets. If we
-change the weights around,
+Let's ensure that the weight really affects the order of the content providers.
+If we change the weights around,
 
   >>> InfoViewlet.weight = 0
   >>> Viewlet.weight = 1
@@ -343,7 +343,7 @@ Next we implement two very simple viewlets, one displaying the name
 
   >>> from zope.app.publisher.browser import BrowserView
   
-  >>> class NameColumnViewlet(BrowserView):
+  >>> class NameColumnViewlet(object):
   ...     zope.interface.implements(IObjectInfoColumn)
   ...     weight = 0
   ...

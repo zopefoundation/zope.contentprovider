@@ -62,6 +62,7 @@ class TALESProvidersExpression(expressions.StringExpr):
         res = []
         iface = interfaces.IContentProviderManager
         objs = (context, request, view)
+        # we have to use the lookup method because region is an interface!
         lookup = ISiteManager(context).adapters.lookup
         cpManagerClass = lookup(map(providedBy, objs)+[region], iface, name='')
         if cpManagerClass is not None:
@@ -107,9 +108,17 @@ class TALESProviderExpression(expressions.StringExpr):
         # get the region from the expression
         region = getRegion(self._iface)
 
-        # Find the viewlets
-        cpManager = zope.component.queryMultiAdapter(
-            (context, request, view), interfaces.IContentProviderManager)
+        # Find the content provider
+        cpManager = None
+        res = []
+        iface = interfaces.IContentProviderManager
+        objs = (context, request, view)
+        # we have to use the lookup method because region is an interface!
+        lookup = ISiteManager(context).adapters.lookup
+        cpManagerClass = lookup(map(providedBy, objs)+[region], iface, name='')
+        if cpManagerClass is not None:
+            cpManager = cpManagerClass(context, request, view, region)
+            
         if cpManager is None:
             cpManager = manager.DefaultContentProviderManager(
                 context, request, view, region)
