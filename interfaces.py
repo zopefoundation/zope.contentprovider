@@ -11,7 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Viewlet interfaces
+"""content provider interfaces
 
 $Id$
 """
@@ -31,7 +31,7 @@ class RegionLookupError(zope.component.ComponentLookupError):
 
 
 class IRegion(zope.interface.interfaces.IInterface):
-    """Type interface for viewlet regions.
+    """Type interface for content provider regions.
 
     Region interfaces specify the environment variables that are available to
     the IContentProvider. How those variables are provided is up to the 
@@ -39,82 +39,92 @@ class IRegion(zope.interface.interfaces.IInterface):
     """
 
 
-class IContentProvider(IBrowserView):
-    """A piece of content of a page.
+class IContentProvider(zope.interface.Interface):
+    """A piece of content to be shown on a page.
 
     Content provider are objects that can fill the region specified in a 
     page, most often page templates. They are selected by the context, request 
-    and view. All viewlets of a particular region must also provide the region
-    interface.
+    and view. All content providers of a particular region must also provide
+    the corresponding region interface.
     """
 
+    context = zope.interface.Attribute(
+        'The context the content provider is used for.')
+
+    request = zope.interface.Attribute(
+        'The request the content provider is used in.')
+
     view = zope.interface.Attribute(
-        'The view the viewlet is used in.')
+        'The view the content provider is used in.')
 
     weight = zope.schema.Int(
         title=_(u'weight'),
         description=_(u"""
-            Key for sorting viewlets if the viewlet collector is supporting
-            this sort mechanism."""),
+            Key for sorting content providers if the content provider
+            manager is supporting this sort mechanism."""),
         required=False,
         default=0)
 
+    def __call__(*args, **kw):
+        """ Return the content provided by this content provider.
+        """
+
 
 class IContentProviderManager(zope.interface.Interface):
-    """An object that provides access to the viewlets.
+    """An object that provides access to the content providers.
 
-    The viewlets are of a particular context, request and view configuration
-    are accessible via a particular manager instance. Viewlets are looked up
-    by the region they appear in and the name of the viewlet.
+    The content providers are of a particular context, request and view configuration
+    are accessible via a particular manager instance. content providers are looked up
+    by the region they appear in and the name of the content provider.
     """
 
     context = zope.interface.Attribute(
-        'The context of the view the viewlet appears in.')
+        'The context of the view the provider manager adapts to.')
 
     view = zope.interface.Attribute(
-        'The view the viewlet is used in.')
+        'The view the provider manager adapts to.')
 
     request = zope.interface.Attribute(
-        'The request of the view the viewlet is used in.')
+        'The request the provider manager adapts to.')
 
-# TODO: implement dummy object providing the region or lookup hook
-#    region = zope.interface.Attribute(
-#        'The request of the view the viewlet is used in.')
+    region = zope.interface.Attribute(
+        'An interface providing IRegion that specifies the region the '
+        'provider manager is responsible for.')
 
     def values(region):
-        """Get all available viewlets of the given region.
+        """Get all available content providers of the given region.
 
-        This method is responsible for sorting the viewlets as well.
+        This method is responsible for sorting the providers as well.
         """
 
     def __getitem__(self, name, region):
-        """Get a particular viewlet of a region selected by name."""
+        """Get a particular content provider of a region selected by name."""
 
 
 class ITALESProvidersExpression(interfaces.ITALESExpression):
-    """TAL namespace for getting a list of viewlets.
+    """TAL namespace for getting a list of content providers.
 
-    To call viewlets in a view use the the following syntax in a page
+    To call content providers in a view use the the following syntax in a page
     template::
 
-      <tal:block repeat="viewlet viewlets:path.to.my.IRegion">
-        <tal:block replace="structure viewlet" />
+      <tal:block repeat="content providers:path.to.my.IRegion">
+        <tal:block replace="structure content" />
       </tal:block>
 
     where ``path.to.my.IRegion`` is a region object that provides
-    ``viewlet.interfaces.IRegion``.
+    ``contentprovider.interfaces.IRegion``.
     """
 
 
 class ITALESProviderExpression(interfaces.ITALESExpression):
-    """TAL namespace for getting a single viewlet.
+    """TAL namespace for getting a single content provider.
 
-    To call a named viewlet in a view use the the following syntax in a page
-    template::
+    To call a named content provider in a view use the the following syntax
+    in a page template::
 
-      <tal:block replace="structure viewlet:path.to.my.IRegion/name" />
+      <tal:block replace="structure provider:path.to.my.IRegion/name" />
 
     where ``path.to.my.IRegion`` is a region object that provides
-    ``viewlet.interfaces.IRegion`` and ``name`` is the name of the page
+    ``contentprovider.interfaces.IRegion`` and ``name`` is the name of the page
     template.
     """

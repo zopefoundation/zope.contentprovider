@@ -42,18 +42,23 @@ interface and that it is registered as a utility providing
 region later.
 
 
-Viewlet
-~~~~~~~
+Content Providers
+~~~~~~~~~~~~~~~~~
 
-Viewlets are snippets of content that can be placed into a region, such as the
-one defined above. As the name suggests, viewlets are views, but they are
-qualified not only by the context object and the request, but also the view
-they appear in. Also, the viewlet must *provide* the region interface it is
-filling; we will demonstrate a more advanced example later, where the purpose
-of this requirement becomes clear.
+Content providers provide snippets of content that can be placed into a region,
+such as the one defined above. Content providers are qualified not only by
+the context object and the request, but also the view they appear in. Also,
+the content provider  must *provide* the region interface
+it is filling; we will demonstrate a more advanced example later, where the
+purpose of this requirement becomes clear.
+
+A typical kind of a content provider is a viewlet, so we'll use simple
+viewlets for the following examples.
 
   >>> class Viewlet(object):
-  ...     def __init__(self, *args): pass
+  ...     zope.interface.implements(interfaces.IContentProvider)
+  ...     def __init__(self, context, request,view):
+  ...          pass
   ...     title = 'Demo Viewlet'
   ...     weight = 1
   ...     def __call__(self, *args, **kw):
@@ -72,7 +77,6 @@ of this requirement becomes clear.
   ...     (zope.interface.Interface, IDefaultBrowserLayer, IBrowserView),
   ...     ILeftColumn,
   ...     name='viewlet')
-
 
 
 Creating the View
@@ -152,7 +156,9 @@ More than one View
 ~~~~~~~~~~~~~~~~~~
 
   >>> class InfoViewlet(object):
-  ...     def __init__(self, *args): pass
+  ...     zope.interface.implements(interfaces.IContentProvider)
+  ...     def __init__(self, *args):
+  ...         pass
   ...     title = 'Info Viewlet'
   ...     weight = 3
   ...     def __call__(self, *args, **kw):
