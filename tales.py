@@ -32,7 +32,7 @@ def getRegion(str):
     """
     region = zope.component.queryUtility(interfaces.IRegion, name=str)
     if region is None:
-        raise interfaces.ViewletRegionLookupError(
+        raise interfaces.RegionLookupError(
             'Provider region interface not found.', str)
     return region
 

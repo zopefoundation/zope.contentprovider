@@ -49,15 +49,10 @@ def tearDown(test):
 
 def test_suite():
     return unittest.TestSuite((
-        DocTestSuite('zope.contentprovider.tales'),
         DocFileSuite('../README.txt',
                      setUp=setUp, tearDown=tearDown,
                      optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
                      ),
-#         DocFileSuite('../directives.txt',
-#                      setUp=setUp, tearDown=tearDown,
-#                      optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-#                      ),
         ))
 
 if __name__ == '__main__':

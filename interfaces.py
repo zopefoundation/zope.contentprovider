@@ -82,13 +82,13 @@ class IContentProviderManager(zope.interface.Interface):
         'An interface providing IRegion that specifies the region the '
         'provider manager is responsible for.')
 
-    def values(region):
-        """Get all available content providers of the given region.
+    def values():
+        """Get all available content providers for this manager.
 
         This method is responsible for sorting the providers as well.
         """
 
-    def __getitem__(self, name, region):
+    def __getitem__(self, name):
         """Get a particular content provider of a region selected by name."""
 
 
