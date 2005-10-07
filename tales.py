@@ -18,10 +18,10 @@ $Id$
 __docformat__ = 'restructuredtext'
 import zope.interface
 import zope.component
-from zope.component.interfaces import ISiteManager
 from zope.tales import expressions
 
 from zope.interface.declarations import providedBy
+from zope.app.component.hooks import siteinfo
 from zope.contentprovider import interfaces, manager
 
 
@@ -63,7 +63,7 @@ class TALESProvidersExpression(expressions.StringExpr):
         iface = interfaces.IContentProviderManager
         objs = (context, request, view)
         # we have to use the lookup method because region is an interface!
-        lookup = ISiteManager(context).adapters.lookup
+        lookup = siteinfo.sm.adapters.lookup
         cpManagerClass = lookup(map(providedBy, objs)+[region], iface, name='')
         if cpManagerClass is not None:
             cpManager = cpManagerClass(context, request, view, region)
@@ -114,7 +114,7 @@ class TALESProviderExpression(expressions.StringExpr):
         iface = interfaces.IContentProviderManager
         objs = (context, request, view)
         # we have to use the lookup method because region is an interface!
-        lookup = ISiteManager(context).adapters.lookup
+        lookup = siteinfo.sm.adapters.lookup
         cpManagerClass = lookup(map(providedBy, objs)+[region], iface, name='')
         if cpManagerClass is not None:
             cpManager = cpManagerClass(context, request, view, region)
