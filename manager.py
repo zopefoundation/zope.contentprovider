@@ -65,12 +65,12 @@ class DefaultContentProviderManager(object):
         # If the viewlet was not found, then raise a lookup error
         if viewlet is None:
             raise zope.component.interfaces.ComponentLookupError(
-                'No viewlet with name `%s` found.' %name)
+                'No provider with name `%s` found.' %name)
 
         # If the viewlet cannot be accessed, then raise an unauthorized error
         if not zope.security.canAccess(viewlet, '__call__'):
             raise zope.security.interfaces.Unauthorized(
-                'You are not authorized to access the viewlet '
+                'You are not authorized to access the provider '
                 'called `%s`.' %name)
 
         # Return the rendered viewlet.
