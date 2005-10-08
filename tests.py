@@ -16,7 +16,7 @@
 $Id$
 """
 __docformat__ = 'restructuredtext'
-
+import os.path
 import unittest
 import zope.interface
 import zope.security
@@ -31,6 +31,8 @@ class TestParticipation(object):
     principal = 'foobar'
     interaction = None
 
+counter = 0
+mtime_func = None
 
 def setUp(test):
     setup.placefulSetUp()
@@ -41,9 +43,19 @@ def setUp(test):
 
     zope.security.management.getInteraction().add(TestParticipation())
 
+    # Make sure we are always reloading page template files ;-)
+    global mtime_func
+    mtime_func = os.path.getmtime
+    def number(x):
+        global counter
+        counter += 1
+        return counter
+    os.path.getmtime = number
+
 
 def tearDown(test):
     setup.placefulTearDown()
+    os.path.getmtime = mtime_func
 
 
 def test_suite():

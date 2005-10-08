@@ -38,9 +38,6 @@ So let's create a simple content provider:
   ...
   ...     def __call__(self):
   ...         return u'<div class="box">%s</div>' %self.message
-  ...
-  ...     def __repr__(self):
-  ...         return 'MessageBox(%s)' %self.message.encode('utf-8')
 
 The interface requires us to make the content provider callable. We can now
 instantiate the content provider (manually) and render it:
@@ -140,7 +137,7 @@ Failure to lookup a Content Provider
 If the name is not found, an error is raied. To demonstrate this behavior
 let's create another template:
 
-  >>> errorFileName = os.path.join(temp_dir, 'template.pt')
+  >>> errorFileName = os.path.join(temp_dir, 'error.pt')
   >>> open(errorFileName, 'w').write('''
   ... <html>
   ...   <body>
@@ -156,9 +153,9 @@ let's create another template:
   ...     zope.interface.Interface,
   ...     name='main.html')
 
-  >>> view = zope.component.getMultiAdapter((content, request),
-  ...                                       name='main.html')
-  >>> print view().strip()
+  >>> errorview = zope.component.getMultiAdapter((content, request),
+  ...                                            name='main.html')
+  >>> print errorview()
   Traceback (most recent call last):
   ...
   ContentProviderLookupError: u'mypage.UnknownName'
@@ -166,6 +163,122 @@ let's create another template:
 
 Additional Data from TAL
 ~~~~~~~~~~~~~~~~~~~~~~~~
+
+The ``proivder`` expression allows also for transferring data from the TAL
+context into the content proivder. This is accomplished by having the content
+provider implement an interface that specifies the attributes and provides
+``ITALNamespaceData``:
+
+  >>> import zope.schema
+  >>> class IMessageText(zope.interface.Interface):
+  ...     message = zope.schema.Text(title=u'Text of the message box')
+
+  >>> zope.interface.directlyProvides(IMessageText,
+  ...                                 interfaces.ITALNamespaceData)
+
+Now the message box can receive its text from the TAL environment:
+
+  >>> class DynamicMessageBox(MessageBox):
+  ...     zope.interface.implements(IMessageText)
+
+  >>> zope.component.provideAdapter(
+  ...     DynamicMessageBox, provides=interfaces.IContentProvider,
+  ...     name='mypage.DynamicMessageBox')
+
+We are now updating our original template to provide the message text:
+
+  >>> open(templateFileName, 'w').write('''
+  ... <html>
+  ...   <body>
+  ...     <h1>My Web Page</h1>
+  ...     <div class="left-column">
+  ...       <tal:block define="message string:Hello World!"
+  ...                  replace="structure provider:mypage.DynamicMessageBox" />
+  ...       <tal:block define="message string:Hello World again!"
+  ...                  replace="structure provider:mypage.DynamicMessageBox" />
+  ...     </div>
+  ...     <div class="main">
+  ...       Content here
+  ...     </div>
+  ...   </body>
+  ... </html>
+  ... ''')
+
+Now we should get two message boxes with different text:
+
+  >>> print view().strip()
+  <html>
+    <body>
+      <h1>My Web Page</h1>
+      <div class="left-column">
+        <div class="box">Hello World!</div>
+        <div class="box">Hello World again!</div>
+      </div>
+      <div class="main">
+        Content here
+      </div>
+    </body>
+  </html>
+
+Finally, a content provider can also implement several ``ITALNamespaceData``:
+
+  >>> class IMessageType(zope.interface.Interface):
+  ...     type = zope.schema.TextLine(title=u'The type of the message box')
+
+  >>> zope.interface.directlyProvides(IMessageType,
+  ...                                 interfaces.ITALNamespaceData)
+
+We'll change our message box content provider implementation a bit, so the new
+information is used:
+
+  >>> class BetterDynamicMessageBox(DynamicMessageBox):
+  ...     zope.interface.implements(IMessageType)
+  ...     type = None
+  ...
+  ...     def __call__(self):
+  ...         return u'<div class="box,%s">%s</div>' %(self.type, self.message)
+
+  >>> zope.component.provideAdapter(
+  ...     BetterDynamicMessageBox, provides=interfaces.IContentProvider,
+  ...     name='mypage.MessageBox')
+
+Of course, we also have to make our tempalte a little bit more dynamic as
+well:
+
+  >>> open(templateFileName, 'w').write('''
+  ... <html>
+  ...   <body>
+  ...     <h1>My Web Page</h1>
+  ...     <div class="left-column">
+  ...       <tal:block define="message string:Hello World!;
+  ...                          type string:error"
+  ...                  replace="structure provider:mypage.MessageBox" />
+  ...       <tal:block define="message string:Hello World again!;
+  ...                          type string:warning"
+  ...                  replace="structure provider:mypage.MessageBox" />
+  ...     </div>
+  ...     <div class="main">
+  ...       Content here
+  ...     </div>
+  ...   </body>
+  ... </html>
+  ... ''')
+
+Now we should get two message boxes with different text and types:
+
+  >>> print view().strip()
+  <html>
+    <body>
+      <h1>My Web Page</h1>
+      <div class="left-column">
+        <div class="box,error">Hello World!</div>
+        <div class="box,warning">Hello World again!</div>
+      </div>
+      <div class="main">
+        Content here
+      </div>
+    </body>
+  </html>
 
 
 You might also want to look at the ``zope.viewlet`` package for a more
