@@ -50,7 +50,7 @@ class TALESProviderExpression(expressions.StringExpr):
 
         # Try to look up the provider.
         provider = zope.component.queryMultiAdapter(
-            (context, request, view), interfaces.IContentProviderManager, name)
+            (context, request, view), interfaces.IContentProvider, name)
 
         # Provide a useful error message, if the provider was not found.
         if provider is None:
@@ -59,4 +59,4 @@ class TALESProviderExpression(expressions.StringExpr):
         # Insert the data gotten from the context
         addTALNamespaceData(provider, econtext)
 
-        return provider
+        return provider()

@@ -28,9 +28,9 @@ So let's create a simple content provider:
 
   >>> class MessageBox(object):
   ...     zope.interface.implements(interfaces.IContentProvider)
-  ...     zope.component.adapts=(zope.interface.Interface,
-  ...                            browser.IDefaultBrowserLayer,
-  ...                            zope.interface.Interface)
+  ...     zope.component.adapts(zope.interface.Interface,
+  ...                           browser.IDefaultBrowserLayer,
+  ...                           zope.interface.Interface)
   ...     message = u'My Message'
   ...
   ...     def __init__(self, context, request, view):
@@ -83,7 +83,7 @@ Let's now create a view using a page template:
   ...   <body>
   ...     <h1>My Web Page</h1>
   ...     <div class="left-column">
-  ...       <tal:block replace="structure provider:mypage.MessageBox">
+  ...       <tal:block replace="structure provider:mypage.MessageBox" />
   ...     </div>
   ...     <div class="main">
   ...       Content here
@@ -102,7 +102,7 @@ Next we register the template as a view (browser page) for all objects:
 
   >>> zope.component.provideAdapter(
   ...     FrontPage,
-  ...     (zope.interface.Interface, IDefaultBrowserLayer),
+  ...     (zope.interface.Interface, browser.IDefaultBrowserLayer),
   ...     zope.interface.Interface,
   ...     name='main.html')
 
@@ -125,9 +125,7 @@ Finally we look up the view and render it:
     <body>
       <h1>My Web Page</h1>
       <div class="left-column">
-        <div class="column-item">
-          <div class="box">My Message</div>
-        </div>
+        <div class="box">My Message</div>
       </div>
       <div class="main">
         Content here
