@@ -46,6 +46,12 @@ class IContentProvider(browser.IBrowserView):
         """ Return the content provided by this content provider.
         """
 
+class IContentProviderType(zope.interface.interfaces.IInterface):
+    """Type interface for content provider types (interfaces derived from
+       IContentProvider. 
+    """
+        
+
 class ITALNamespaceData(zope.interface.interfaces.IInterface):
     """A type interface that marks an interface as a TAL data specification.
 
