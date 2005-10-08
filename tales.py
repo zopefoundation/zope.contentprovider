@@ -16,119 +16,47 @@
 $Id$
 """
 __docformat__ = 'restructuredtext'
-import zope.interface
+
 import zope.component
+import zope.interface
+import zope.schema
 from zope.tales import expressions
 
-from zope.interface.declarations import providedBy
-from zope.app.component.hooks import siteinfo
-from zope.contentprovider import interfaces, manager
+from zope.contentprovider import interfaces
 
 
-def getRegion(str):
-    """Get a region from the string.
-
-    This function will create the dummy region implementation as well.
-    """
-    region = zope.component.queryUtility(interfaces.IRegion, name=str)
-    if region is None:
-        raise interfaces.RegionLookupError(
-            'Provider region interface not found.', str)
-    return region
-
-
-def getRegionFieldData(region, context):
-    """Get a dictionary of values for the region fields."""
+def addTALNamespaceData(provider, context):
+    """Add the requested TAL attributes to the provider"""
     data = {}
-    for name, field in zope.schema.getFields(region).items():
-        data[name] = context.vars.get(name, field.default)
-    return data
 
+    for interface in zope.interface.providedBy(provider):
+        if interfaces.ITALNamespaceData.providedBy(interface):
+            for name, field in zope.schema.getFields(interface).items():
+                data[name] = context.vars.get(name, field.default)
 
-class TALESProvidersExpression(expressions.StringExpr):
-    """Collect content provider via a TAL namespace."""
-
-    zope.interface.implements(interfaces.ITALESProvidersExpression)
-
-    def __call__(self, econtext):
-        context = econtext.vars['context']
-        request = econtext.vars['request']
-        view = econtext.vars['view']
-
-        # get the region from the expression
-        region = getRegion(self._s)
-
-        cpManager = None
-        res = []
-        iface = interfaces.IContentProviderManager
-        objs = (context, request, view)
-        # we have to use the lookup method because region is an interface!
-        lookup = siteinfo.sm.adapters.lookup
-        cpManagerClass = lookup(map(providedBy, objs)+[region], iface, name='')
-        if cpManagerClass is not None:
-            cpManager = cpManagerClass(context, request, view, region)
-            
-        if cpManager is None:
-            cpManager = manager.DefaultContentProviderManager(
-                context, request, view, region)
-
-        providers = cpManager.values()
-        #providers = cpManager.values()
-
-        # Insert the data gotten from the context
-        data = getRegionFieldData(region, econtext)
-        for provider in providers:
-            provider.__dict__.update(data)
-
-        return providers
+    provider.__dict__.update(data)
 
 
 class TALESProviderExpression(expressions.StringExpr):
-    """Collects a single content provider via a TAL namespace."""
+    """Collect content provider via a TAL namespace."""
 
     zope.interface.implements(interfaces.ITALESProviderExpression)
 
     def __call__(self, econtext):
-        expr = super(TALESProviderExpression, self).__call__(econtext)
-        if not '/' in expr:
-            raise KeyError('Use `iface/key` for defining the provider.')
-
-        parts = expr.split('/')
-        if len(parts) > 2:
-            msg = "Do not use more then one '/' for defining iface/key."
-            raise KeyError(msg)
-
-        # get interface from key
-        self._iface = parts[0]
-        self._name = parts[1]
-
+        name = super(TALESProviderExpression, self).__call__(econtext)
         context = econtext.vars['context']
         request = econtext.vars['request']
         view = econtext.vars['view']
 
-        # get the region from the expression
-        region = getRegion(self._iface)
+        # Try to look up the provider.
+        provider = zope.component.queryMultiAdapter(
+            (context, request, view), interfaces.IContentProviderManager, name)
 
-        # Find the content provider
-        cpManager = None
-        res = []
-        iface = interfaces.IContentProviderManager
-        objs = (context, request, view)
-        # we have to use the lookup method because region is an interface!
-        lookup = siteinfo.sm.adapters.lookup
-        cpManagerClass = lookup(map(providedBy, objs)+[region], iface, name='')
-        if cpManagerClass is not None:
-            cpManager = cpManagerClass(context, request, view, region)
-            
-        if cpManager is None:
-            cpManager = manager.DefaultContentProviderManager(
-                context, request, view, region)
-
-        provider = cpManager.__getitem__(self._name)
-        #provider = cpManager[self._name]
+        # Provide a useful error message, if the provider was not found.
+        if provider is None:
+            raise interfaces.ContentProviderLookupError(name)
 
         # Insert the data gotten from the context
-        data = getRegionFieldData(region, econtext)
-        provider.__dict__.update(data)
+        addTALNamespaceData(provider, econtext)
 
-        return provider()
+        return provider
