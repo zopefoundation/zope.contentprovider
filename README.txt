@@ -137,6 +137,32 @@ Finally we look up the view and render it:
 Failure to lookup a Content Provider
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+If the name is not found, an error is raied. To demonstrate this behavior
+let's create another template:
+
+  >>> errorFileName = os.path.join(temp_dir, 'template.pt')
+  >>> open(errorFileName, 'w').write('''
+  ... <html>
+  ...   <body>
+  ...     <tal:block replace="structure provider:mypage.UnknownName" />
+  ...   </body>
+  ... </html>
+  ... ''')
+
+  >>> ErrorPage = SimpleViewClass(errorFileName, name='error.html')
+  >>> zope.component.provideAdapter(
+  ...     ErrorPage,
+  ...     (zope.interface.Interface, browser.IDefaultBrowserLayer),
+  ...     zope.interface.Interface,
+  ...     name='main.html')
+
+  >>> view = zope.component.getMultiAdapter((content, request),
+  ...                                       name='main.html')
+  >>> print view().strip()
+  Traceback (most recent call last):
+  ...
+  ContentProviderLookupError: u'mypage.UnknownName'
+
 
 Additional Data from TAL
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -144,3 +170,11 @@ Additional Data from TAL
 
 You might also want to look at the ``zope.viewlet`` package for a more
 featureful API.
+
+
+Cleanup
+-------
+
+  >>> import shutil
+  >>> shutil.rmtree(temp_dir)
+
