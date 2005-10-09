@@ -48,7 +48,7 @@ class IContentProvider(browser.IBrowserView):
 
 class IContentProviderType(zope.interface.interfaces.IInterface):
     """Type interface for content provider types (interfaces derived from
-       IContentProvider. 
+       IContentProvider).
     """
         
 
