@@ -38,7 +38,15 @@ def addTALNamespaceData(provider, context):
 
 
 class TALESProviderExpression(expressions.StringExpr):
-    """Collect content provider via a TAL namespace."""
+    """Collect content provider via a TAL namespace.
+
+    Note that this implementation of the TALES `provider` namespace does not
+    work with interdependent content providers, since each content-provider's
+    stage one call is made just before the second stage is executed. If you
+    want to implement interdependent content providers, you need to consider a
+    TAL-independent view implementation that will complete all content
+    providers' stage one before rendering any of them.
+    """
 
     zope.interface.implements(interfaces.ITALESProviderExpression)
 
@@ -59,4 +67,8 @@ class TALESProviderExpression(expressions.StringExpr):
         # Insert the data gotten from the context
         addTALNamespaceData(provider, econtext)
 
-        return provider()
+        # Stage 1: Do the state update.
+        provider.update()
+
+        # Stage 2: Render the HTML content.
+        return provider.render()

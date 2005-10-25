@@ -56,7 +56,8 @@ def setUp(test):
 def tearDown(test):
     setup.placefulTearDown()
     os.path.getmtime = mtime_func
-
+    global counter
+    counter = 0
 
 def test_suite():
     return unittest.TestSuite((
