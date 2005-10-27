@@ -82,9 +82,9 @@ level in a different package. This particualr package is only meant to provide
 the interface between the content provider world and page templates.
 
 .. [1] Note that this is a bit different from the role named content provider,
-which refers to a service that provides content; the content provider we are
-talking about here are the software components the service would provide to an
-application.
+       which refers to a service that provides content; the content provider
+       we are talking about here are the software components the service would
+       provide to an application.
 
 
 Content Providers
