@@ -367,7 +367,7 @@ Finally we look up the view and render it:
 Failure to lookup a Content Provider
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If the name is not found, an error is raied. To demonstrate this behavior
+If the name is not found, an error is raised. To demonstrate this behavior
 let's create another template:
 
   >>> errorFileName = os.path.join(temp_dir, 'error.pt')
@@ -397,8 +397,8 @@ let's create another template:
 Additional Data from TAL
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-The ``proivder`` expression allows also for transferring data from the TAL
-context into the content proivder. This is accomplished by having the content
+The ``provider`` expression allows also for transferring data from the TAL
+context into the content provider. This is accomplished by having the content
 provider implement an interface that specifies the attributes and provides
 ``ITALNamespaceData``:
 
