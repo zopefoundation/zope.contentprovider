@@ -20,8 +20,7 @@ __docformat__ = 'restructuredtext'
 import zope.component
 import zope.interface
 from zope.tales import interfaces
-from zope.app.publisher.interfaces import browser
-
+from zope.publisher.interfaces import browser
 
 class IUpdateNotCalled(zope.interface.common.interfaces.IRuntimeError):
     """Update Not Called

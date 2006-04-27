@@ -391,7 +391,7 @@ let's create another template:
   >>> print errorview()
   Traceback (most recent call last):
   ...
-  ContentProviderLookupError: u'mypage.UnknownName'
+  ContentProviderLookupError: mypage.UnknownName
 
 
 Additional Data from TAL
