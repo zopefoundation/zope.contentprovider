@@ -23,7 +23,7 @@ import zope.schema
 from zope.tales import expressions
 
 from zope.contentprovider import interfaces
-
+from zope.location.interfaces import ILocation
 
 def addTALNamespaceData(provider, context):
     """Add the requested TAL attributes to the provider"""
@@ -63,6 +63,10 @@ class TALESProviderExpression(expressions.StringExpr):
         # Provide a useful error message, if the provider was not found.
         if provider is None:
             raise interfaces.ContentProviderLookupError(name)
+
+        # add the __name__ attribute if it implements ILocation
+        if ILocation.providedBy(provider):
+            provider.__name__ = name
 
         # Insert the data gotten from the context
         addTALNamespaceData(provider, econtext)
