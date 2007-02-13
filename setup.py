@@ -18,13 +18,10 @@ $Id$
 
 import os
 
-try:
-    from setuptools import setup, Extension
-except ImportError, e:
-    from distutils.core import setup, Extension
+from setuptools import setup, find_packages
 
 setup(name='zope.contentprovider',
-      version='3.4-dev',
+      version='3.4dev',
       url='http://svn.zope.org/zope.contentprovider',
       license='ZPL 2.1',
       description='Zope contentprovider',
@@ -38,8 +35,7 @@ setup(name='zope.contentprovider',
                        "objects are dynamically looked up based on"
                        "the setup/configuration of the application.",
 
-      packages=['zope',
-                'zope.contentprovider'],
+	  packages=find_packages('src'),
       package_dir = {'': 'src'},
 
       namespace_packages=['zope',],
