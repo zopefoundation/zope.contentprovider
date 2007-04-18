@@ -18,14 +18,10 @@ $Id$
 __docformat__ = 'restructuredtext'
 import os.path
 import unittest
-import zope.interface
 import zope.security
 from zope.testing import doctest
-from zope.testing.doctestunit import DocTestSuite, DocFileSuite
+from zope.testing.doctestunit import DocFileSuite
 from zope.app.testing import setup
-
-from zope.contentprovider import interfaces
-
 
 class TestParticipation(object):
     principal = 'foobar'
