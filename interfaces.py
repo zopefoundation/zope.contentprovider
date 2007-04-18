@@ -21,6 +21,7 @@ import zope.component
 import zope.interface
 from zope.tales import interfaces
 from zope.publisher.interfaces import browser
+from zope.component.interfaces import ObjectEvent, IObjectEvent
 
 class IUpdateNotCalled(zope.interface.common.interfaces.IRuntimeError):
     """Update Not Called
@@ -34,6 +35,16 @@ class UpdateNotCalled(RuntimeError):
 
 # Make it a singelton
 UpdateNotCalled = UpdateNotCalled('``update()`` was not called yet.')
+
+class IBeforeUpdateEvent(IObjectEvent):
+
+    """A Contentprovider will be updated"""
+    
+class BeforeUpdateEvent(ObjectEvent):
+
+    """A Contentprovider willt be updated"""
+
+    zope.interface.implements(IBeforeUpdateEvent)
 
 class IContentProvider(browser.IBrowserView):
     """A piece of content to be shown on a page.
@@ -98,7 +109,6 @@ class IContentProvider(browser.IBrowserView):
         Calling this method before ``update()`` *may* (but is not required to)
         raise an ``UpdateNotCalled`` error.
         """
-
 
 class IContentProviderType(zope.interface.interfaces.IInterface):
     """Type interface for content provider types (interfaces derived from
