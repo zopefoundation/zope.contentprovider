@@ -34,20 +34,22 @@ setup(name='zope.contentprovider',
                        "templates and METAL macros, content provider"
                        "objects are dynamically looked up based on"
                        "the setup/configuration of the application.",
-
 	  packages=find_packages('src'),
       package_dir = {'': 'src'},
-
       namespace_packages=['zope',],
-      tests_require = ['zope.testing',
-                       'zope.security',
-                       'zope.app'],
-      install_requires=['zope.interface',
-                        'zope.component',
+      extras_require = dict(test=['zope.app.pagetemplate',
+                                  'zope.app.testing',
+                                  'zope.security',
+                                  'zope.testing',
+                                  ]),
+      install_requires=['zope.component',
+                        'zope.event',
+                        'zope.interface',
+                        'zope.location',
                         'zope.publisher',
                         'zope.schema',
-                        'zope.tales'],
+                        'zope.tales',
+                        ],
       include_package_data = True,
-
       zip_safe = False,
       )

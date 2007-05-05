@@ -343,9 +343,13 @@ Let's create a content object that can be viewed:
 
   >>> content = Content()
 
-Finally we look up the view and render it:
+Finally we look up the view and render it. Note that a
+BeforeUpdateEvent is fired - this event should always be fired before
+any contentprovider is updated.
 
   >>> from zope.publisher.browser import TestRequest
+  >>> events = []
+  >>> zope.component.provideHandler(events.append, (None, ))
   >>> request = TestRequest()
 
   >>> view = zope.component.getMultiAdapter((content, request),
@@ -363,6 +367,8 @@ Finally we look up the view and render it:
     </body>
   </html>
 
+  >>> events
+  [<zope.contentprovider.interfaces.BeforeUpdateEvent object at ...>]
 
 Failure to lookup a Content Provider
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

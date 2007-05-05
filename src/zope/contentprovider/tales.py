@@ -20,6 +20,7 @@ __docformat__ = 'restructuredtext'
 import zope.component
 import zope.interface
 import zope.schema
+import zope.event
 from zope.tales import expressions
 
 from zope.contentprovider import interfaces
@@ -72,6 +73,7 @@ class TALESProviderExpression(expressions.StringExpr):
         addTALNamespaceData(provider, econtext)
 
         # Stage 1: Do the state update.
+        zope.event.notify(interfaces.BeforeUpdateEvent(provider))
         provider.update()
 
         # Stage 2: Render the HTML content.
