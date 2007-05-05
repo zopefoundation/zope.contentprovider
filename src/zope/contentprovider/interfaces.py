@@ -39,12 +39,20 @@ UpdateNotCalled = UpdateNotCalled('``update()`` was not called yet.')
 class IBeforeUpdateEvent(IObjectEvent):
 
     """A Contentprovider will be updated"""
-    
+
+    request = zope.interface.Attribute(
+        """The request in which the object is udpated, might also be
+        None""")
+
 class BeforeUpdateEvent(ObjectEvent):
 
-    """A Contentprovider willt be updated"""
+    """A Contentprovider will be updated"""
 
     zope.interface.implements(IBeforeUpdateEvent)
+
+    def __init__(self, provider, request=None):
+        super(BeforeUpdateEvent, self).__init__(provider)
+        self.request = request
 
 class IContentProvider(browser.IBrowserView):
     """A piece of content to be shown on a page.

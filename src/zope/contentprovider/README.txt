@@ -370,6 +370,13 @@ any contentprovider is updated.
   >>> events
   [<zope.contentprovider.interfaces.BeforeUpdateEvent object at ...>]
 
+The event holds the provider and the request.
+
+  >>> events[0].request
+  <zope.publisher.browser.TestRequest instance URL=http://127.0.0.1>
+  >>> events[0].object
+  <MessageBox object at ...>
+  
 Failure to lookup a Content Provider
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

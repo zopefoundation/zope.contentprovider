@@ -73,7 +73,7 @@ class TALESProviderExpression(expressions.StringExpr):
         addTALNamespaceData(provider, econtext)
 
         # Stage 1: Do the state update.
-        zope.event.notify(interfaces.BeforeUpdateEvent(provider))
+        zope.event.notify(interfaces.BeforeUpdateEvent(provider, request))
         provider.update()
 
         # Stage 2: Render the HTML content.
