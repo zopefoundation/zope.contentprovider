@@ -1,0 +1,8 @@
+=======
+CHANGES
+=======
+
+3.4.0 (2007-10-02)
+------------------
+
+- Initial release independent of the main Zope tree.

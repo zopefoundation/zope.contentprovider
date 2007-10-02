@@ -15,33 +15,49 @@
 
 $Id$
 """
-
 import os
-
 from setuptools import setup, find_packages
 
+def read(*rnames):
+    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+
 setup(name='zope.contentprovider',
-      version = '3.4.0b1',
-      url='http://svn.zope.org/zope.contentprovider',
-      license='ZPL 2.1',
-      description='Zope contentprovider',
+      version = '3.4.0',
       author='Zope Corporation and Contributors',
       author_email='zope3-dev@zope.org',
-      long_description="This package provides a framework to"
-                       "develop componentized Web GUI applications."
-                       "Instead of describing the content of a page"
-                       "using a single template or static system of"
-                       "templates and METAL macros, content provider"
-                       "objects are dynamically looked up based on"
-                       "the setup/configuration of the application.",
-	  packages=find_packages('src'),
+      description='Zope Content Providers',
+      long_description=(
+          read('README.txt')
+          + '\n\n' +
+          'Detailed Documentation\n' +
+          '----------------------\n'
+          + '\n\n' +
+          read('src', 'zope', 'contentprovider', 'README.txt')
+          + '\n\n' +
+          read('CHANGES.txt')
+          ),
+      keywords = "zope3 content provider",
+      classifiers = [
+          'Development Status :: 5 - Production/Stable',
+          'Environment :: Web Environment',
+          'Intended Audience :: Developers',
+          'License :: OSI Approved :: Zope Public License',
+          'Programming Language :: Python',
+          'Natural Language :: English',
+          'Operating System :: OS Independent',
+          'Topic :: Internet :: WWW/HTTP',
+          'Framework :: Zope3'],
+      url='http://cheeseshop.python.org/pypi/zope.contentprovider',
+      license='ZPL 2.1',
+      packages=find_packages('src'),
       package_dir = {'': 'src'},
-      namespace_packages=['zope',],
-      extras_require = dict(test=['zope.app.pagetemplate',
-                                  'zope.app.testing',
-                                  'zope.security',
-                                  'zope.testing',
-                                  ]),
+      namespace_packages=['zope'],
+      extras_require = dict(
+          test=['zope.app.pagetemplate',
+                'zope.app.testing',
+                'zope.security',
+                'zope.testing',
+                ]),
       install_requires=['zope.component',
                         'zope.event',
                         'zope.interface',
