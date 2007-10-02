@@ -29,9 +29,6 @@ setup(name='zope.contentprovider',
       long_description=(
           read('README.txt')
           + '\n\n' +
-          'Detailed Documentation\n' +
-          '----------------------\n'
-          + '\n\n' +
           read('src', 'zope', 'contentprovider', 'README.txt')
           + '\n\n' +
           read('CHANGES.txt')

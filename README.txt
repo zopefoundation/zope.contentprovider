@@ -1,5 +1,6 @@
-zope.contentprovider Package Readme
-===================================
+==============================
+ zope.contentprovider Package
+==============================
 
 Overview
 --------
