@@ -6,6 +6,8 @@ CHANGES
 ------------------
 
 - Added setuptools dependency to setup.py.
+- Changed mailing list address to zope-dev at zope.org instead of retired one.
+- Changed ``cheeseshop`` to ``pypi`` in the package url.
 
 3.4.0 (2007-10-02)
 ------------------
