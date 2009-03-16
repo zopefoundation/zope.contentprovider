@@ -11,33 +11,27 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Viewlet tests
+"""Content provider tests
 
 $Id$
 """
 __docformat__ = 'restructuredtext'
 import os.path
 import unittest
-import zope.security
-from zope.testing import doctest
+from zope.component import eventtesting
+from zope.testing import doctest, cleanup
 from zope.testing.doctestunit import DocFileSuite
-from zope.app.testing import setup
-
-class TestParticipation(object):
-    principal = 'foobar'
-    interaction = None
 
 counter = 0
 mtime_func = None
 
 def setUp(test):
-    setup.placefulSetUp()
+    cleanup.setUp()
+    eventtesting.setUp()
 
     from zope.app.pagetemplate import metaconfigure
     from zope.contentprovider import tales
     metaconfigure.registerType('provider', tales.TALESProviderExpression)
-
-    zope.security.management.getInteraction().add(TestParticipation())
 
     # Make sure we are always reloading page template files ;-)
     global mtime_func
@@ -50,7 +44,7 @@ def setUp(test):
 
 
 def tearDown(test):
-    setup.placefulTearDown()
+    cleanup.tearDown()
     os.path.getmtime = mtime_func
     global counter
     counter = 0

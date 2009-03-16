@@ -51,8 +51,6 @@ setup(name='zope.contentprovider',
       namespace_packages=['zope'],
       extras_require = dict(
           test=['zope.app.pagetemplate',
-                'zope.app.testing',
-                'zope.security',
                 'zope.testing',
                 ]),
       install_requires=['setuptools',

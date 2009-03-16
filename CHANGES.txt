@@ -5,6 +5,9 @@ CHANGES
 3.4.1 (unreleased)
 ------------------
 
+- Remove unneeded testing dependencies. We only need zope.testing and
+  zope.app.pagetemplate.
+
 - Remove zcml slug and old zpkg-related files.
 
 - Added setuptools dependency to setup.py.
