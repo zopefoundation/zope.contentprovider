@@ -2,7 +2,12 @@
 CHANGES
 =======
 
-3.4.1 (unreleased)
+3.5.1 (unreleased)
+------------------
+
+- ...
+
+3.5.0 (2009-03-18)
 ------------------
 
 - Add very simple, but useful base class for implementing content
