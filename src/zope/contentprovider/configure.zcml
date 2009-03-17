@@ -6,6 +6,7 @@
     i18n_domain="zope">
 
   <interface interface=".interfaces.ITALESProviderExpression" />
+
   <tales:expressiontype
       name="provider"
       handler=".tales.TALESProviderExpression"

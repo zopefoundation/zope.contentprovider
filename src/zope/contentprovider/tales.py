@@ -11,7 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Provider tales expression registrations
+"""Provider TALES expression
 
 $Id$
 """
@@ -21,10 +21,10 @@ import zope.component
 import zope.interface
 import zope.schema
 import zope.event
+from zope.location.interfaces import ILocation
 from zope.tales import expressions
 
 from zope.contentprovider import interfaces
-from zope.location.interfaces import ILocation
 
 def addTALNamespaceData(provider, context):
     """Add the requested TAL attributes to the provider"""
