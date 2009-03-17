@@ -15,7 +15,11 @@ CHANGES
 
 - Added setuptools dependency to setup.py.
 
-- Change mailing list address to zope-dev at zope.org instead of retired one.
+- Clean up package's description and documentation a bit. Remove
+  duplicate text in README.
+
+- Change mailing list address to zope-dev at zope.org instead of
+  retired one.
 
 - Change ``cheeseshop`` to ``pypi`` in the package url.
 
