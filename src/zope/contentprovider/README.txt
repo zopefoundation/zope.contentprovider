@@ -8,8 +8,7 @@ template or static system of templates and METAL macros, content provider
 objects are dynamically looked up based on the setup/configuration of the
 application.
 
-  >>> from zope.contentprovider import interfaces
-
+.. contents::
 
 Motivation and Design Goals
 ---------------------------
@@ -100,6 +99,8 @@ The second important concept of content providers are their two-phase
 rendering design. In the first phase the state of the content provider is
 prepared and, if applicable, any data, the provider is responsible for, is
 updated.
+
+  >>> from zope.contentprovider import interfaces
 
 So let's create a simple content provider:
 
@@ -565,10 +566,7 @@ templates, using this ContentProviderBase class as a base.
 You might also want to look at the ``zope.viewlet`` package for a more
 featureful API.
 
-
-Cleanup
--------
+Let's remove all temporary data we created during this README.
 
   >>> import shutil
   >>> shutil.rmtree(temp_dir)
-

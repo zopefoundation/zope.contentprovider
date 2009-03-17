@@ -22,13 +22,11 @@ def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 setup(name='zope.contentprovider',
-      version = '3.4.1dev',
+      version = '3.5.0',
       author='Zope Corporation and Contributors',
       author_email='zope-dev@zope.org',
-      description='Zope Content Providers',
+      description='Content Provider Framework for Zope Templates',
       long_description=(
-          read('README.txt')
-          + '\n\n' +
           read('src', 'zope', 'contentprovider', 'README.txt')
           + '\n\n' +
           read('CHANGES.txt')

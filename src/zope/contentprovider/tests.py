@@ -20,7 +20,7 @@ import os.path
 import unittest
 from zope.component import eventtesting
 from zope.testing import doctest, cleanup
-from zope.testing.doctestunit import DocFileSuite
+from zope.testing.doctest import DocFileSuite
 
 counter = 0
 mtime_func = None
