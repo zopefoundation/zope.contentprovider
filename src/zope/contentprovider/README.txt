@@ -61,11 +61,11 @@ the "content provider" [1]_. A content provider is simply responsible for
 providing HTML content for a page. This is equivalent to a view that does not
 provide a full page, but just a snippet, much like widgets or macros. Once
 there is a way to configure those content providers, we need a way to
-inserting them into our page templates. In our implementation this is
+insert them into our page templates. In our implementation this is
 accomplished using a new TALES namespace that allows to insert content
 providers by name. But how, you might wonder, does this provide a
 componentized user interface? On the Zope 3 level, each content provider is
-registered as a presentation component discriminted by the context, request
+registered as a presentation component discriminated by the context, request
 and view it will appear in. Thus different content providers will be picked
 for different configurations.
 
@@ -97,7 +97,7 @@ context, request (and thus the layer/skin), and view they are displayed in.
 
 The second important concept of content providers are their two-phase
 rendering design. In the first phase the state of the content provider is
-prepared and, if applicable, any data, the provider is responsible for, is
+prepared and, if applicable, any data the provider is responsible for is
 updated.
 
   >>> from zope.contentprovider import interfaces
