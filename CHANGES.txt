@@ -2,10 +2,10 @@
 CHANGES
 =======
 
-3.5.1 (unreleased)
+3.6.0 (unreleased)
 ------------------
 
-- ...
+- Updated test dependency to use zope.browserpage.
 
 3.5.0 (2009-03-18)
 ------------------

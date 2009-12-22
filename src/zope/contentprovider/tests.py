@@ -29,9 +29,9 @@ def setUp(test):
     cleanup.setUp()
     eventtesting.setUp()
 
-    from zope.app.pagetemplate import metaconfigure
+    from zope.browserpage.metaconfigure import registerType
     from zope.contentprovider import tales
-    metaconfigure.registerType('provider', tales.TALESProviderExpression)
+    registerType('provider', tales.TALESProviderExpression)
 
     # Make sure we are always reloading page template files ;-)
     global mtime_func

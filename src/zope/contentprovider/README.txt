@@ -328,7 +328,7 @@ content provider and insert the HTML content at this place.
 
 Next we register the template as a view (browser page) for all objects:
 
-  >>> from zope.app.pagetemplate.simpleviewclass import SimpleViewClass
+  >>> from zope.browserpage.simpleviewclass import SimpleViewClass
   >>> FrontPage = SimpleViewClass(templateFileName, name='main.html')
 
   >>> zope.component.provideAdapter(
