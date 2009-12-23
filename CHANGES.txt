@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.6.1 (unreleased)
+3.6.1 (2009-12-23)
 ------------------
 
 - Ensure that our configure.zcml can be loaded without requiring further
