@@ -7,10 +7,14 @@
 
   <interface interface=".interfaces.ITALESProviderExpression" />
 
-  <tales:expressiontype
-      name="provider"
-      handler=".tales.TALESProviderExpression"
-      />
+  <configure zcml:condition="installed zope.app.pagetemplate">
+
+    <tales:expressiontype
+        name="provider"
+        handler=".tales.TALESProviderExpression"
+        />
+
+  </configure>
 
   <apidoc:bookchapter
       id="contentprovider"

@@ -5,6 +5,10 @@ CHANGES
 3.6.1 (unreleased)
 ------------------
 
+- Ensure that our configure.zcml can be loaded without requiring further
+  dependencies. It uses a ``tales:expressiontype`` directive defined in
+  zope.app.pagetemplate. We keep that dependency optional, as not all consumers
+  of this package use ZCML to configure the expression type.
 
 3.6.0 (2009-12-22)
 ------------------
