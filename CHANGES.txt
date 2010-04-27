@@ -2,8 +2,8 @@
 CHANGES
 =======
 
-3.6.2 (unreleased)
-------------------
+3.7 (2010-04-27)
+----------------
 
 - Since tales:expressiontype is now in ``zope.browserpage``, update
   conditional ZCML accordingly so it doesn't depend on the presence of
