@@ -53,7 +53,7 @@ setup(name='zope.contentprovider',
       package_dir = {'': 'src'},
       namespace_packages=['zope'],
       extras_require = dict(
-          test=['zope.browserpage>=3.10.1',
+          test=['zope.browserpage>=3.12',
                 'zope.testing',
                 ]),
       install_requires=['setuptools',

@@ -5,6 +5,9 @@ CHANGES
 3.6.2 (unreleased)
 ------------------
 
+- Since tales:expressiontype is now in ``zope.browserpage``, update
+  conditional ZCML accordingly so it doesn't depend on the presence of
+  ``zope.app.pagetemplate`` anymore.
 
 3.6.1 (2009-12-23)
 ------------------

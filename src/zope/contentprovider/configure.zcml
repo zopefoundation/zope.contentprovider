@@ -7,7 +7,7 @@
 
   <interface interface=".interfaces.ITALESProviderExpression" />
 
-  <configure zcml:condition="installed zope.app.pagetemplate">
+  <configure zcml:condition="installed zope.browserpage">
 
     <tales:expressiontype
         name="provider"
