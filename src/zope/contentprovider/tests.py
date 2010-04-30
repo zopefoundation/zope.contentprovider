@@ -16,11 +16,13 @@
 $Id$
 """
 __docformat__ = 'restructuredtext'
+
+import doctest
 import os.path
 import unittest
+
 from zope.component import eventtesting
-from zope.testing import doctest, cleanup
-from zope.testing.doctest import DocFileSuite
+from zope.testing import cleanup
 
 counter = 0
 mtime_func = None
@@ -51,11 +53,8 @@ def tearDown(test):
 
 def test_suite():
     return unittest.TestSuite((
-        DocFileSuite('README.txt',
-                     setUp=setUp, tearDown=tearDown,
-                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                     ),
+        doctest.DocFileSuite('README.txt',
+            setUp=setUp, tearDown=tearDown,
+            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            ),
         ))
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')
