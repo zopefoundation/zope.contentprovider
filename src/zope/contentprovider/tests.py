@@ -56,5 +56,7 @@ def test_suite():
         doctest.DocFileSuite('README.txt',
             setUp=setUp, tearDown=tearDown,
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            globs = {'__file__': os.path.join(
+                os.path.dirname(__file__), 'README.txt')}
             ),
         ))
