@@ -5,31 +5,39 @@ CHANGES
 3.7.2 (unreleased)
 ------------------
 
+- Fixed unit tests broken under Python 2.4 by the switch to the standard
+  library ``doctest`` module.
+
 
 3.7.1 (2010-04-30)
 ------------------
 
-- Prefer the standard libraries doctest module to the one from zope.testing.
+- Prefer the standard library's ``doctest`` module to the one from
+  ``zope.testing.``
+
 
 3.7 (2010-04-27)
 ----------------
 
-- Since tales:expressiontype is now in ``zope.browserpage``, update
+- Since ``tales:expressiontype`` is now in ``zope.browserpage``, update
   conditional ZCML accordingly so it doesn't depend on the presence of
   ``zope.app.pagetemplate`` anymore.
+
 
 3.6.1 (2009-12-23)
 ------------------
 
-- Ensure that our configure.zcml can be loaded without requiring further
+- Ensure that our ``configure.zcml`` can be loaded without requiring further
   dependencies. It uses a ``tales:expressiontype`` directive defined in
-  zope.app.pagetemplate. We keep that dependency optional, as not all consumers
-  of this package use ZCML to configure the expression type.
+  ``zope.app.pagetemplate.`` We keep that dependency optional, as not all
+  consumers of this package use ZCML to configure the expression type.
+
 
 3.6.0 (2009-12-22)
 ------------------
 
-- Updated test dependency to use zope.browserpage.
+- Updated test dependency to use ``zope.browserpage``.
+
 
 3.5.0 (2009-03-18)
 ------------------
@@ -37,8 +45,8 @@ CHANGES
 - Add very simple, but useful base class for implementing content
   providers, see ``zope.contentprovider.provider.ContentProviderBase``.
 
-- Remove unneeded testing dependencies. We only need zope.testing and
-  zope.app.pagetemplate.
+- Remove unneeded testing dependencies. We only need ``zope.testing`` and
+  ``zope.app.pagetemplate``.
 
 - Remove zcml slug and old zpkg-related files.
 
@@ -51,6 +59,7 @@ CHANGES
   retired one.
 
 - Change ``cheeseshop`` to ``pypi`` in the package url.
+
 
 3.4.0 (2007-10-02)
 ------------------
