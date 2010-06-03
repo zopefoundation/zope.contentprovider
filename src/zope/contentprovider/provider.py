@@ -12,8 +12,6 @@
 #
 ##############################################################################
 """Simple base class for implementing content providers
-
-$Id$
 """
 from zope.component import adapts
 from zope.interface import Interface, implements

@@ -12,8 +12,6 @@
 #
 ##############################################################################
 """Content provider interfaces
-
-$Id$
 """
 __docformat__ = 'restructuredtext'
 

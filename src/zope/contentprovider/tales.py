@@ -12,8 +12,6 @@
 #
 ##############################################################################
 """Provider TALES expression
-
-$Id$
 """
 __docformat__ = 'restructuredtext'
 
