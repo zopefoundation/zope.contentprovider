@@ -17,8 +17,6 @@
 # Zope Toolkit policies as described by this documentation.
 ##############################################################################
 """Setup for zope.contentprovider package
-
-$Id$
 """
 import os
 from setuptools import setup, find_packages
