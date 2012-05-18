@@ -13,18 +13,17 @@
 ##############################################################################
 """Simple base class for implementing content providers
 """
-from zope.component import adapts
-from zope.interface import Interface, implements
+from zope.component import adapter
+from zope.interface import Interface, implementer
 from zope.publisher.browser import BrowserView
 from zope.publisher.interfaces.browser import IBrowserRequest
 
 from zope.contentprovider.interfaces import IContentProvider
 
+@implementer(IContentProvider)
+@adapter(Interface, IBrowserRequest, Interface)
 class ContentProviderBase(BrowserView):
     """Base class for content providers"""
-
-    implements(IContentProvider)
-    adapts(Interface, IBrowserRequest, Interface)
 
     def __init__(self, context, request, view):
         super(ContentProviderBase, self).__init__(context, request)

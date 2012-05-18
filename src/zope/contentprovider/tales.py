@@ -36,6 +36,7 @@ def addTALNamespaceData(provider, context):
     provider.__dict__.update(data)
 
 
+@zope.interface.implementer(interfaces.ITALESProviderExpression)
 class TALESProviderExpression(expressions.StringExpr):
     """Collect content provider via a TAL namespace.
 
@@ -46,8 +47,6 @@ class TALESProviderExpression(expressions.StringExpr):
     TAL-independent view implementation that will complete all content
     providers' stage one before rendering any of them.
     """
-
-    zope.interface.implements(interfaces.ITALESProviderExpression)
 
     def __call__(self, econtext):
         name = super(TALESProviderExpression, self).__call__(econtext)

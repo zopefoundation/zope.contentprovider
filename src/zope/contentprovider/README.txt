@@ -108,11 +108,11 @@ So let's create a simple content provider:
   >>> import zope.component
   >>> from zope.publisher.interfaces import browser
 
-  >>> class MessageBox(object):
-  ...     zope.interface.implements(interfaces.IContentProvider)
-  ...     zope.component.adapts(zope.interface.Interface,
-  ...                           browser.IDefaultBrowserLayer,
-  ...                           zope.interface.Interface)
+  >>> @zope.interface.implementer(interfaces.IContentProvider)
+  ... @zope.component.adapter(zope.interface.Interface,
+  ...                         browser.IDefaultBrowserLayer,
+  ...                         zope.interface.Interface)
+  ... class MessageBox(object):
   ...     message = u'My Message'
   ...
   ...     def __init__(self, context, request, view):
@@ -161,11 +161,11 @@ content component to be updated,
 
 and the content provider that is updating the title:
 
-  >>> class ChangeTitle(object):
-  ...     zope.interface.implements(interfaces.IContentProvider)
-  ...     zope.component.adapts(zope.interface.Interface,
-  ...                           browser.IDefaultBrowserLayer,
-  ...                           zope.interface.Interface)
+  >>> @zope.interface.implementer(interfaces.IContentProvider)
+  ... @zope.component.adapter(zope.interface.Interface,
+  ...                         browser.IDefaultBrowserLayer,
+  ...                         zope.interface.Interface)
+  ... class ChangeTitle(object):
   ...     fieldName = 'ChangeTitle.title'
   ...
   ...     def __init__(self, context, request, view):
@@ -204,11 +204,11 @@ So this was easy. Let's now look at a case where one content provider's update
 influences the content of another. Let's say we have a content provider that
 displays the article's title:
 
-  >>> class ViewTitle(object):
-  ...     zope.interface.implements(interfaces.IContentProvider)
-  ...     zope.component.adapts(zope.interface.Interface,
-  ...                           browser.IDefaultBrowserLayer,
-  ...                           zope.interface.Interface)
+  >>> @zope.interface.implementer(interfaces.IContentProvider)
+  ... @zope.component.adapter(zope.interface.Interface,
+  ...                         browser.IDefaultBrowserLayer,
+  ...                         zope.interface.Interface)
+  ... class ViewTitle(object):
   ...
   ...     def __init__(self, context, request, view):
   ...         self.context, self.__parent__ = context, view
@@ -261,11 +261,11 @@ or any other data is so important to the correct functioning of the API, the
 developer has the choice to raise the ``UpdateNotCalled`` error, if any method
 is called before ``update()`` (with exception of the constructor):
 
-  >>> class InfoBox(object):
-  ...     zope.interface.implements(interfaces.IContentProvider)
-  ...     zope.component.adapts(zope.interface.Interface,
-  ...                           browser.IDefaultBrowserLayer,
-  ...                           zope.interface.Interface)
+  >>> @zope.interface.implementer(interfaces.IContentProvider)
+  ... @zope.component.adapter(zope.interface.Interface,
+  ...                         browser.IDefaultBrowserLayer,
+  ...                         zope.interface.Interface)
+  ... class InfoBox(object):
   ...
   ...     def __init__(self, context, request, view):
   ...         self.__parent__ = view
@@ -339,8 +339,9 @@ Next we register the template as a view (browser page) for all objects:
 
 Let's create a content object that can be viewed:
 
-  >>> class Content(object):
-  ...     zope.interface.implements(zope.interface.Interface)
+  >>> @zope.interface.implementer(zope.interface.Interface)
+  ... class Content(object):
+  ...     pass
 
   >>> content = Content()
 
@@ -425,8 +426,9 @@ provider implement an interface that specifies the attributes and provides
 
 Now the message box can receive its text from the TAL environment:
 
-  >>> class DynamicMessageBox(MessageBox):
-  ...     zope.interface.implements(IMessageText)
+  >>> @zope.interface.implementer(IMessageText)
+  ... class DynamicMessageBox(MessageBox):
+  ...     pass
 
   >>> zope.component.provideAdapter(
   ...     DynamicMessageBox, provides=interfaces.IContentProvider,
@@ -478,8 +480,8 @@ Finally, a content provider can also implement several ``ITALNamespaceData``:
 We'll change our message box content provider implementation a bit, so the new
 information is used:
 
-  >>> class BetterDynamicMessageBox(DynamicMessageBox):
-  ...     zope.interface.implements(IMessageType)
+  >>> @zope.interface.implementer(IMessageType)
+  ... class BetterDynamicMessageBox(DynamicMessageBox):
   ...     type = None
   ...
   ...     def render(self):

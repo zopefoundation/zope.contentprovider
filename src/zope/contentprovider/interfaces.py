@@ -42,11 +42,9 @@ class IBeforeUpdateEvent(IObjectEvent):
         """The request in which the object is udpated, might also be
         None""")
 
+@zope.interface.implementer(IBeforeUpdateEvent)
 class BeforeUpdateEvent(ObjectEvent):
-
     """A Contentprovider will be updated"""
-
-    zope.interface.implements(IBeforeUpdateEvent)
 
     def __init__(self, provider, request=None):
         super(BeforeUpdateEvent, self).__init__(provider)
