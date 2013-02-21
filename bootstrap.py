@@ -18,7 +18,8 @@ The script accepts buildout command-line options, so you can
 use the -c option to specify an alternate configuration file.
 """
 
-import os, shutil, sys, tempfile, urllib2
+import os, shutil, sys, tempfile
+from optparse import OptionParser
 from optparse import OptionParser
 
 tmpeggs = tempfile.mkdtemp()

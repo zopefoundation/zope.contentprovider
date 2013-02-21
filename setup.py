@@ -67,5 +67,7 @@ setup(name='zope.contentprovider',
                         'zope.tales',
                         ],
       include_package_data = True,
+      tests_require = ['zope.testing', 'zope.browserpage'],
+      test_suite = 'zope.contentprovider.tests.test_suite',
       zip_safe = False,
       )
