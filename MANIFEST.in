@@ -1,6 +1,6 @@
 include *.rst
 include *.txt
-include bootstrap.py
+include *.py
 include buildout.cfg
 include tox.ini
 

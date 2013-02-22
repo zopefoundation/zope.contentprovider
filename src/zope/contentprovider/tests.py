@@ -13,17 +13,30 @@
 ##############################################################################
 """Content provider tests
 """
-__docformat__ = 'restructuredtext'
-
 import doctest
 import os.path
+import re
 import unittest
 
 from zope.component import eventtesting
-from zope.testing import cleanup
+from zope.testing import cleanup, renormalizing
 
 counter = 0
 mtime_func = None
+
+checker = renormalizing.RENormalizing([
+    # Python 3 unicode removed the "u".
+    (re.compile("u('.*?')"),
+     r"\1"),
+    (re.compile('u(".*?")'),
+     r"\1"),
+    # Python 3 adds module name to exceptions.
+    (re.compile("zope.contentprovider.interfaces.UpdateNotCalled"),
+     r"UpdateNotCalled"),
+    (re.compile("zope.contentprovider.interfaces.ContentProviderLookupError"),
+     r"ContentProviderLookupError"),
+    ])
+
 
 def setUp(test):
     cleanup.setUp()
@@ -51,10 +64,12 @@ def tearDown(test):
 
 def test_suite():
     return unittest.TestSuite((
-        doctest.DocFileSuite('README.txt',
-            setUp=setUp, tearDown=tearDown,
-            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-            globs = {'__file__': os.path.join(
-                os.path.dirname(__file__), 'README.txt')}
+        doctest.DocFileSuite(
+                'README.txt',
+                setUp=setUp, tearDown=tearDown,
+                optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+                checker=checker,
+                globs = {'__file__': os.path.join(
+                        os.path.dirname(__file__), 'README.txt')}
             ),
         ))

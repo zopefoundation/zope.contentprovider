@@ -309,7 +309,8 @@ Let's now create a view using a page template:
   >>> import os, tempfile
   >>> temp_dir = tempfile.mkdtemp()
   >>> templateFileName = os.path.join(temp_dir, 'template.pt')
-  >>> open(templateFileName, 'w').write('''
+  >>> with open(templateFileName, 'w') as file:
+  ...     _ = file.write('''
   ... <html>
   ...   <body>
   ...     <h1>My Web Page</h1>
@@ -356,7 +357,7 @@ any contentprovider is updated.
 
   >>> view = zope.component.getMultiAdapter((content, request),
   ...                                       name='main.html')
-  >>> print view().strip()
+  >>> print(view().strip())
   <html>
     <body>
       <h1>My Web Page</h1>
@@ -378,7 +379,7 @@ The event holds the provider and the request.
   <zope.publisher.browser.TestRequest instance URL=http://127.0.0.1>
   >>> events[0].object
   <MessageBox object at ...>
-  
+
 Failure to lookup a Content Provider
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -386,7 +387,8 @@ If the name is not found, an error is raised. To demonstrate this behavior
 let's create another template:
 
   >>> errorFileName = os.path.join(temp_dir, 'error.pt')
-  >>> open(errorFileName, 'w').write('''
+  >>> with open(errorFileName, 'w') as file:
+  ...     _ = file.write('''
   ... <html>
   ...   <body>
   ...     <tal:block replace="structure provider:mypage.UnknownName" />
@@ -403,7 +405,7 @@ let's create another template:
 
   >>> errorview = zope.component.getMultiAdapter((content, request),
   ...                                            name='main.html')
-  >>> print errorview()
+  >>> print(errorview())
   Traceback (most recent call last):
   ...
   ContentProviderLookupError: mypage.UnknownName
@@ -436,7 +438,8 @@ Now the message box can receive its text from the TAL environment:
 
 We are now updating our original template to provide the message text:
 
-  >>> open(templateFileName, 'w').write('''
+  >>> with open(templateFileName, 'w') as file:
+  ...     _ = file.write('''
   ... <html>
   ...   <body>
   ...     <h1>My Web Page</h1>
@@ -455,7 +458,7 @@ We are now updating our original template to provide the message text:
 
 Now we should get two message boxes with different text:
 
-  >>> print view().strip()
+  >>> print(view().strip())
   <html>
     <body>
       <h1>My Web Page</h1>
@@ -494,7 +497,8 @@ information is used:
 Of course, we also have to make our tempalte a little bit more dynamic as
 well:
 
-  >>> open(templateFileName, 'w').write('''
+  >>> with open(templateFileName, 'w') as file:
+  ...     _ = file.write('''
   ... <html>
   ...   <body>
   ...     <h1>My Web Page</h1>
@@ -515,7 +519,7 @@ well:
 
 Now we should get two message boxes with different text and types:
 
-  >>> print view().strip()
+  >>> print(view().strip())
   <html>
     <body>
       <h1>My Web Page</h1>
@@ -542,27 +546,27 @@ work:
   >>> class MyProvider(ContentProviderBase):
   ...     def render(self, *args, **kwargs):
   ...         return 'Hi there'
-  
+
   >>> provider = MyProvider(None, None, None)
   >>> interfaces.IContentProvider.providedBy(provider)
   True
-  
+
   >>> provider.update()
-  >>> print provider.render()
+  >>> print(provider.render())
   Hi there
 
 Note, that it can't be used as is, without providing the ``render`` method:
 
   >>> bad = ContentProviderBase(None, None, None)
   >>> bad.update()
-  >>> print bad.render()
+  >>> print(bad.render())
   Traceback (most recent call last):
   ...
   NotImplementedError: ``render`` method must be implemented by subclass
 
 You can add the update logic into the ``update`` method as with any content
 provider and you can implement more complex rendering patterns, based on
-templates, using this ContentProviderBase class as a base.  
+templates, using this ContentProviderBase class as a base.
 
 
 You might also want to look at the ``zope.viewlet`` package for a more
