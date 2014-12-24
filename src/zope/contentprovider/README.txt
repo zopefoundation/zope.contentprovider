@@ -123,6 +123,9 @@ So let's create a simple content provider:
   ...
   ...     def render(self):
   ...         return u'<div class="box">%s</div>' %self.message
+  ...
+  ...     def __repr__(self):
+  ...         return '<MessageBox object at %x>' % id(self)
 
 The ``update()`` method is executed during phase one. Since no state needs to
 be calculated and no data is modified by this simple content provider, it is
