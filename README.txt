@@ -1,1 +1,8 @@
-See src/zope/contentprovider/README.txt.
+``zope.contentprovider`` README
+===============================
+
+This package provides a framework to develop componentized Web GUI
+applications. Instead of describing the content of a page using a single
+template or static system of templates and METAL macros, content provider
+objects are dynamically looked up based on the setup/configuration of the
+application.

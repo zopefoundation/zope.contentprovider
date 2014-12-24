@@ -31,6 +31,8 @@ setup(name='zope.contentprovider',
       author_email='zope-dev@zope.org',
       description='Content Provider Framework for Zope Templates',
       long_description=(
+          read('README.txt')
+          + '\n\n' +
           read('src', 'zope', 'contentprovider', 'README.txt')
           + '\n\n' +
           read('CHANGES.txt')
