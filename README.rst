@@ -1,5 +1,8 @@
-``zope.contentprovider`` README
-===============================
+``zope.contentprovider``
+========================
+
+.. image:: https://travis-ci.org/zopefoundation/zope.contentprovider.png?branch=master
+        :target: https://travis-ci.org/zopefoundation/zope.contentprovider
 
 This package provides a framework to develop componentized Web GUI
 applications. Instead of describing the content of a page using a single
