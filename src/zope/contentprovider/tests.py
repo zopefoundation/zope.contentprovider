@@ -35,7 +35,7 @@ checker = renormalizing.RENormalizing([
      r"UpdateNotCalled"),
     (re.compile("zope.contentprovider.interfaces.ContentProviderLookupError"),
      r"ContentProviderLookupError"),
-    ])
+])
 
 
 def setUp(test):
@@ -65,11 +65,11 @@ def tearDown(test):
 def test_suite():
     return unittest.TestSuite((
         doctest.DocFileSuite(
-                'README.txt',
-                setUp=setUp, tearDown=tearDown,
-                optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
-                checker=checker,
-                globs = {'__file__': os.path.join(
-                        os.path.dirname(__file__), 'README.txt')}
-            ),
-        ))
+            'README.rst',
+            setUp=setUp, tearDown=tearDown,
+            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            checker=checker,
+            globs={'__file__': os.path.join(
+                os.path.dirname(__file__), 'README.rst')}
+        ),
+    ))

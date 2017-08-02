@@ -1,16 +1,17 @@
-Changes
-=======
+=========
+ Changes
+=========
 
 4.1.0 (unreleased)
-------------------
+==================
 
-- Add support for Python 3.5.
+- Add support for Python 3.5 and 3.6.
 
-- Drop support for Python 2.6.
+- Drop support for Python 2.6 and 3.3.
 
 
 4.0.0 (2014-12-24)
-------------------
+==================
 
 - Add support for PyPy and PyPy3.
 
@@ -20,7 +21,7 @@ Changes
 
 
 4.0.0a1 (2013-02-22)
---------------------
+====================
 
 - Add Python 3.3 support.
 
@@ -34,21 +35,21 @@ Changes
 
 
 3.7.2 (2010-05-25)
-------------------
+==================
 
 - Fix unit tests broken under Python 2.4 by the switch to the standard
   library ``doctest`` module.
 
 
 3.7.1 (2010-04-30)
-------------------
+==================
 
 - Prefer the standard library's ``doctest`` module to the one from
   ``zope.testing.``
 
 
 3.7 (2010-04-27)
-----------------
+================
 
 - Since ``tales:expressiontype`` is now in ``zope.browserpage``, update
   conditional ZCML accordingly so it doesn't depend on the presence of
@@ -56,7 +57,7 @@ Changes
 
 
 3.6.1 (2009-12-23)
-------------------
+==================
 
 - Ensure that our ``configure.zcml`` can be loaded without requiring further
   dependencies. It uses a ``tales:expressiontype`` directive defined in
@@ -65,13 +66,13 @@ Changes
 
 
 3.6.0 (2009-12-22)
-------------------
+==================
 
 - Update test dependency to use ``zope.browserpage``.
 
 
 3.5.0 (2009-03-18)
-------------------
+==================
 
 - Add very simple, but useful base class for implementing content
   providers, see ``zope.contentprovider.provider.ContentProviderBase``.
@@ -93,6 +94,6 @@ Changes
 
 
 3.4.0 (2007-10-02)
-------------------
+==================
 
 - Initial release independent of the main Zope tree.
