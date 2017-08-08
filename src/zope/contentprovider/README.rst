@@ -1,10 +1,11 @@
-Content Providers
-=================
+===================
+ Content Providers
+===================
 
 .. contents::
 
 Motivation and Design Goals
----------------------------
+===========================
 
 Before diving into the features of this package let me take up a few bytes of
 text to explain the use cases that drove us to develop this package (also
@@ -80,7 +81,7 @@ the interface between the content provider world and page templates.
 
 
 Content Providers
------------------
+=================
 
 Content Provider is a term from the Java world that refers to components that
 can provide HTML content. It means nothing more! How the content is found and
@@ -144,7 +145,7 @@ its HTML using those three components.
 
 
 Two-Phased Content Providers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 Let's now have a look at a content provider that actively uses the two-phase
 rendering process. The simpler scenario is the case where the content provider
@@ -250,7 +251,7 @@ providers, before executing phase 2 (render):
 
 
 ``UpdateNotCalled`` Errors
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
 Since calling ``update()`` before any other method that mutates the provider
 or any other data is so important to the correct functioning of the API, the
@@ -289,7 +290,7 @@ is called before ``update()`` (with exception of the constructor):
 
 
 The TALES ``provider`` Expression
----------------------------------
+=================================
 
 The ``provider`` expression will look up the name of the content provider,
 call it and return the HTML content. The first step, however, will be to
@@ -377,7 +378,7 @@ The event holds the provider and the request.
   <MessageBox object at ...>
 
 Failure to lookup a Content Provider
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------
 
 If the name is not found, an error is raised. To demonstrate this behavior
 let's create another template:
@@ -408,7 +409,7 @@ let's create another template:
 
 
 Additional Data from TAL
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 The ``provider`` expression allows also for transferring data from the TAL
 context into the content provider. This is accomplished by having the content
@@ -490,7 +491,7 @@ information is used:
   ...     BetterDynamicMessageBox, provides=interfaces.IContentProvider,
   ...     name='mypage.MessageBox')
 
-Of course, we also have to make our tempalte a little bit more dynamic as
+Of course, we also have to make our template a little bit more dynamic as
 well:
 
   >>> with open(templateFileName, 'w') as file:
@@ -529,9 +530,42 @@ Now we should get two message boxes with different text and types:
     </body>
   </html>
 
+ILocation
+---------
+
+If our content provider implements
+``zope.location.interfaces.ILocation``, then it will have its
+``__name__`` set to the name that was used to invoke it.
+
+
+  >>> from zope.location.interfaces import ILocation
+  >>> @zope.interface.implementer(ILocation)
+  ... class LocationDynamicMessageBox(BetterDynamicMessageBox):
+  ...
+  ...     def render(self):
+  ...         return u'<div class="box">%s</div>' %(self.__name__,)
+
+  >>> zope.component.provideAdapter(
+  ...     LocationDynamicMessageBox, provides=interfaces.IContentProvider,
+  ...     name='mypage.MessageBox')
+
+  >>> print(view().strip())
+  <html>
+    <body>
+      <h1>My Web Page</h1>
+      <div class="left-column">
+        <div class="box">mypage.MessageBox</div>
+        <div class="box">mypage.MessageBox</div>
+      </div>
+      <div class="main">
+        Content here
+      </div>
+    </body>
+  </html>
+
 
 Base class
-----------
+==========
 
 The ``zope.contentprovider.provider`` module provides an useful base
 class for implementing content providers. It has all boilerplate code
