@@ -29,10 +29,10 @@ class IUpdateNotCalled(zope.interface.common.interfaces.IRuntimeError):
     """
 
 class UpdateNotCalled(RuntimeError):
-    pass
-
-# Make it a singelton
-UpdateNotCalled = UpdateNotCalled('``update()`` was not called yet.')
+    def __init__(self, *args):
+        if not args:
+            args = ('``update()`` was not called yet.',)
+        super(UpdateNotCalled, self).__init__(*args)
 
 class IBeforeUpdateEvent(IObjectEvent):
 

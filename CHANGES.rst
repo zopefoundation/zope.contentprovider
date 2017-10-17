@@ -5,7 +5,8 @@
 4.1.1 (unreleased)
 ==================
 
-- Nothing changed yet.
+- Fixed UpdateNotCalled being an instance rather than an exception class
+  (https://github.com/zopefoundation/zope.contentprovider/issues/4).
 
 
 4.1.0 (2017-08-08)

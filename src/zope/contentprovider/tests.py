@@ -20,6 +20,17 @@ import unittest
 
 from zope.component import eventtesting
 from zope.testing import cleanup, renormalizing
+from zope.contentprovider.interfaces import UpdateNotCalled
+
+
+class TestExceptionHandling(unittest.TestCase):
+
+    def test(self):
+        try:
+            raise UpdateNotCalled
+        except UpdateNotCalled:
+            pass
+
 
 counter = 0
 mtime_func = None
@@ -62,14 +73,16 @@ def tearDown(test):
     global counter
     counter = 0
 
+
 def test_suite():
-    return unittest.TestSuite((
+    return unittest.TestSuite([
+        unittest.defaultTestLoader.loadTestsFromName(__name__),
         doctest.DocFileSuite(
             'README.rst',
             setUp=setUp, tearDown=tearDown,
-            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,
+            optionflags=doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS,
             checker=checker,
             globs={'__file__': os.path.join(
                 os.path.dirname(__file__), 'README.rst')}
         ),
-    ))
+    ])
