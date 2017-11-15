@@ -50,7 +50,7 @@ uses the name to look up the provider at run time.
 Let's now create a view using a page template:
 
   >>> import os, tempfile
-  >>> temp_dir = tempfile.mkdtemp()
+  >>> temp_dir = tempfile.mkdtemp(prefix="test-zopecontentprovider-")
   >>> templateFileName = os.path.join(temp_dir, 'template.pt')
   >>> with open(templateFileName, 'w') as file:
   ...     _ = file.write('''
@@ -67,7 +67,7 @@ Let's now create a view using a page template:
   ... </html>
   ... ''')
 
-As you can see, we exprect the ``provider`` expression to simply look up the
+As you can see, we expect the ``provider`` expression to simply look up the
 content provider and insert the HTML content at this place.
 
 Next we register the template as a view (browser page) for all objects:
@@ -91,7 +91,7 @@ Let's create a content object that can be viewed:
 
 Finally we look up the view and render it. Note that a
 `.BeforeUpdateEvent` is fired - this event should always be fired before
-any contentprovider is updated.
+any content provider is updated.
 
   >>> from zope.publisher.browser import TestRequest
   >>> events = []
@@ -123,8 +123,8 @@ The event holds the provider and the request.
   >>> events[0].object
   <MessageBox object at ...>
 
-Failure to lookup a Content Provider
-====================================
+Failure to Find a Content Provider
+==================================
 
 If the name is not found, an error is raised. To demonstrate this behavior
 let's create another template:
@@ -232,7 +232,7 @@ information is used:
   ...     type = None
   ...
   ...     def render(self):
-  ...         return u'<div class="box,%s">%s</div>' %(self.type, self.message)
+  ...         return u'<div class="box,%s">%s</div>' % (self.type, self.message)
 
   >>> zope.component.provideAdapter(
   ...     BetterDynamicMessageBox, provides=interfaces.IContentProvider,
@@ -290,7 +290,7 @@ If our content provider implements
   ... class LocationDynamicMessageBox(BetterDynamicMessageBox):
   ...
   ...     def render(self):
-  ...         return u'<div class="box">%s</div>' %(self.__name__,)
+  ...         return u'<div class="box">%s</div>' % (self.__name__,)
 
   >>> zope.component.provideAdapter(
   ...     LocationDynamicMessageBox, provides=interfaces.IContentProvider,

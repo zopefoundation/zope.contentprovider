@@ -11,7 +11,7 @@ successful! The component architecture is a marvelous piece of software that
 hopefully will allow us to build scalable solutions for a very long
 time. However, when it comes to user interface design, in this case
 specifically HTML pages, we have failed to provide the features and patterns
-of assembeling a page from configured components.
+of assembling a page from configured components.
 
 Looking up views for a particular content component and a request just simply
 does not work by itself. The content inside the page is still monolithic. One
@@ -32,7 +32,7 @@ the page. This type of use case is very hard to solve using page
 templates. However, pipes are not the answer to componentized user interface,
 since they cannot simply deal with registering random content for a given page
 region. In fact, I propose that pipelines are orthogonal to content providers,
-the concept introducted below. A pipeline framework could easily use
+the concept introduced below. A pipeline framework could easily use
 functionality provided by this and other packages to provide component-driven
 UI design.
 

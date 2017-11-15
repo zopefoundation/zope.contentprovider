@@ -38,7 +38,7 @@ class UpdateNotCalled(RuntimeError):
         super(UpdateNotCalled, self).__init__(*args)
 
 class IBeforeUpdateEvent(IObjectEvent):
-    """A Contentprovider will be updated"""
+    """A content provider will be updated"""
 
     request = zope.interface.Attribute(
         """The request in which the object is udpated, might also be
