@@ -29,13 +29,15 @@ class IUpdateNotCalled(zope.interface.common.interfaces.IRuntimeError):
     """
 
 class UpdateNotCalled(RuntimeError):
+    """
+    Default implementation of `IUpdateNotCalled`.
+    """
     def __init__(self, *args):
         if not args:
             args = ('``update()`` was not called yet.',)
         super(UpdateNotCalled, self).__init__(*args)
 
 class IBeforeUpdateEvent(IObjectEvent):
-
     """A Contentprovider will be updated"""
 
     request = zope.interface.Attribute(
@@ -44,7 +46,9 @@ class IBeforeUpdateEvent(IObjectEvent):
 
 @zope.interface.implementer(IBeforeUpdateEvent)
 class BeforeUpdateEvent(ObjectEvent):
-    """A Contentprovider will be updated"""
+    """
+    Default implementation of `IBeforeUpdateEvent`.
+    """
 
     def __init__(self, provider, request=None):
         super(BeforeUpdateEvent, self).__init__(provider)
@@ -61,11 +65,11 @@ class IContentProvider(browser.IBrowserView):
 
     (1) The first stage is responsible to calculate the state of the content
         provider and, if applicable, edit the data. This stage is executed
-        using the ``update()`` method.
+        using the :meth:`update` method.
 
     (2) During the second stage the provider constructs/renders its HTML
         output based on the state that was calculated in the first stage. This
-        stage is executed using the ``render()`` method.
+        stage is executed using the :meth:`render` method.
 
     Content Providers are discriminated by three components: the context, the
     request and the view. This allows great control over the selection of the
@@ -110,8 +114,8 @@ class IContentProvider(browser.IBrowserView):
     def render(*args, **kw):
         """Return the content provided by this content provider.
 
-        Calling this method before ``update()`` *may* (but is not required to)
-        raise an ``UpdateNotCalled`` error.
+        Calling this method before :meth:`update` *may* (but is not required to)
+        raise an `UpdateNotCalled` error.
         """
 
 class IContentProviderType(zope.interface.interfaces.IInterface):
@@ -142,5 +146,5 @@ class ITALESProviderExpression(interfaces.ITALESExpression):
       <tal:block replace="structure provider:provider.name">
 
     The content provider is looked up by the (context, request, view) objects
-    and the name (`provider.name`).
+    and the name (``provider.name``).
     """

@@ -40,8 +40,6 @@ setup(
     long_description=(
         read('README.rst')
         + '\n\n' +
-        read('src', 'zope', 'contentprovider', 'README.rst')
-        + '\n\n' +
         read('CHANGES.rst')
     ),
     keywords="zope3 content provider",
@@ -64,13 +62,17 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Framework :: Zope3',
     ],
-    url='http://github.com/zopefoundation/zope.contentprovider',
+    url='https://github.com/zopefoundation/zope.contentprovider',
     license='ZPL 2.1',
     packages=find_packages('src'),
     package_dir={'': 'src'},
     namespace_packages=['zope'],
     extras_require={
         'test': TESTS_REQUIRE,
+        'docs': [
+            'Sphinx',
+            'repoze.sphinx.autointerface',
+        ],
     },
     install_requires=[
         'setuptools',
