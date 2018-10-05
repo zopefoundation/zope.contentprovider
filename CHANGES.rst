@@ -5,6 +5,8 @@
 4.1.1 (unreleased)
 ==================
 
+- Add support for Python 3.7.
+
 - Fixed UpdateNotCalled being an instance rather than an exception class
   (https://github.com/zopefoundation/zope.contentprovider/issues/4).
 
