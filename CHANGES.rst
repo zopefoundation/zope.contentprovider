@@ -2,13 +2,13 @@
  Changes
 =========
 
-4.1.1 (unreleased)
-==================
+4.2 (2018-10-05)
+================
 
 - Add support for Python 3.7.
 
 - Fixed UpdateNotCalled being an instance rather than an exception class
-  (https://github.com/zopefoundation/zope.contentprovider/issues/4).
+  (`#4 <https://github.com/zopefoundation/zope.contentprovider/issues/4>`_).
 
 - Host documentation at https://zopecontentprovider.readthedocs.io
 
