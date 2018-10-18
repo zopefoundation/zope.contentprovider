@@ -61,7 +61,7 @@ setup(
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
-        'Framework :: Zope3',
+        'Framework :: Zope :: 3',
     ],
     url='https://github.com/zopefoundation/zope.contentprovider',
     license='ZPL 2.1',
