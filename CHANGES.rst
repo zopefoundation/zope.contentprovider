@@ -5,7 +5,7 @@
 4.3 (unreleased)
 ================
 
-- Nothing changed yet.
+- Fix deprecation warnings.
 
 
 4.2 (2018-10-05)

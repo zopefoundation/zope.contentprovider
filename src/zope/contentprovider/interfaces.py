@@ -15,7 +15,7 @@
 
 import zope.component
 import zope.interface
-from zope.component.interfaces import ObjectEvent, IObjectEvent
+from zope.interface.interfaces import ObjectEvent, IObjectEvent
 from zope.publisher.interfaces import browser
 from zope.tales import interfaces
 

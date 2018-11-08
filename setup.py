@@ -33,6 +33,7 @@ TESTS_REQUIRE = [
     'zope.testrunner',
 ]
 
+
 setup(
     name='zope.contentprovider',
     version='4.3.dev0',
@@ -81,7 +82,7 @@ setup(
         'setuptools',
         'zope.component',
         'zope.event',
-        'zope.interface',
+        'zope.interface >= 3.8',
         'zope.location',
         'zope.publisher',
         'zope.schema',
