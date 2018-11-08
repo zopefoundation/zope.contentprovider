@@ -16,14 +16,16 @@
 # When developing and releasing this package, please follow the documented
 # Zope Toolkit policies as described by this documentation.
 ##############################################################################
-"""Setup for zope.contentprovider package
-"""
+"""Setup for zope.contentprovider package"""
+
 import os
 from setuptools import setup, find_packages
+
 
 def read(*rnames):
     with open(os.path.join(os.path.dirname(__file__), *rnames)) as f:
         return f.read()
+
 
 TESTS_REQUIRE = [
     'zope.browserpage>=3.12',

@@ -11,10 +11,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Provider TALES expression
-"""
-__docformat__ = 'restructuredtext'
-
+"""Provider TALES expression"""
 import zope.component
 import zope.interface
 import zope.schema
@@ -23,6 +20,7 @@ from zope.location.interfaces import ILocation
 from zope.tales import expressions
 
 from zope.contentprovider import interfaces
+
 
 def addTALNamespaceData(provider, context):
     """Add the requested TAL attributes to the provider"""

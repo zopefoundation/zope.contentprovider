@@ -11,15 +11,14 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-"""Content provider interfaces
-"""
-__docformat__ = 'restructuredtext'
+"""Content provider interfaces"""
 
 import zope.component
 import zope.interface
 from zope.component.interfaces import ObjectEvent, IObjectEvent
 from zope.publisher.interfaces import browser
 from zope.tales import interfaces
+
 
 class IUpdateNotCalled(zope.interface.common.interfaces.IRuntimeError):
     """Update Not Called
@@ -28,14 +27,15 @@ class IUpdateNotCalled(zope.interface.common.interfaces.IRuntimeError):
     the ``update()`` method.
     """
 
+
 class UpdateNotCalled(RuntimeError):
-    """
-    Default implementation of `IUpdateNotCalled`.
-    """
+    """Default implementation of `IUpdateNotCalled`."""
+
     def __init__(self, *args):
         if not args:
             args = ('``update()`` was not called yet.',)
         super(UpdateNotCalled, self).__init__(*args)
+
 
 class IBeforeUpdateEvent(IObjectEvent):
     """A content provider will be updated"""
@@ -44,15 +44,15 @@ class IBeforeUpdateEvent(IObjectEvent):
         """The request in which the object is udpated, might also be
         None""")
 
+
 @zope.interface.implementer(IBeforeUpdateEvent)
 class BeforeUpdateEvent(ObjectEvent):
-    """
-    Default implementation of `IBeforeUpdateEvent`.
-    """
+    """Default implementation of `IBeforeUpdateEvent`."""
 
     def __init__(self, provider, request=None):
         super(BeforeUpdateEvent, self).__init__(provider)
         self.request = request
+
 
 class IContentProvider(browser.IBrowserView):
     """A piece of content to be shown on a page.
@@ -114,13 +114,15 @@ class IContentProvider(browser.IBrowserView):
     def render(*args, **kw):
         """Return the content provided by this content provider.
 
-        Calling this method before :meth:`update` *may* (but is not required to)
-        raise an `UpdateNotCalled` error.
+        Calling this method before :meth:`update` *may* (but is not required
+        to) raise an `UpdateNotCalled` error.
         """
 
+
 class IContentProviderType(zope.interface.interfaces.IInterface):
-    """Type interface for content provider types (interfaces derived from
-       IContentProvider).
+    """Type interface for content provider types
+
+    (interfaces derived from IContentProvider).
     """
 
 

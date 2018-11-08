@@ -20,6 +20,7 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 
 from zope.contentprovider.interfaces import IContentProvider
 
+
 @implementer(IContentProvider)
 @adapter(Interface, IBrowserRequest, Interface)
 class ContentProviderBase(BrowserView):
