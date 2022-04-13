@@ -14,7 +14,8 @@
 """Simple base class for implementing content providers
 """
 from zope.component import adapter
-from zope.interface import Interface, implementer
+from zope.interface import Interface
+from zope.interface import implementer
 from zope.publisher.browser import BrowserView
 from zope.publisher.interfaces.browser import IBrowserRequest
 

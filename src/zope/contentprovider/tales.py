@@ -13,9 +13,9 @@
 ##############################################################################
 """Provider TALES expression"""
 import zope.component
+import zope.event
 import zope.interface
 import zope.schema
-import zope.event
 from zope.location.interfaces import ILocation
 from zope.tales import expressions
 
