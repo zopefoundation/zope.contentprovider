@@ -38,7 +38,7 @@ TESTS_REQUIRE = [
 
 setup(
     name='zope.contentprovider',
-    version='5.0.dev0',
+    version='5.0',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.dev',
     description='Content Provider Framework for Zope Templates',
