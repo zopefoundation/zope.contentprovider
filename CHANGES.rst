@@ -2,10 +2,14 @@
  Changes
 =========
 
-4.3 (unreleased)
+5.0 (unreleased)
 ================
 
-- Nothing changed yet.
+- Drop support for Python 2.7, 3.4, 3.5, 3.6.
+
+- Drop support for deprecated ``python setup.py test``.
+
+- Add support for Python 3.8, 3.9, 3.10, 3.11.
 
 
 4.2.1 (2018-11-08)

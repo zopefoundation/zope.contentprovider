@@ -13,9 +13,9 @@
 ##############################################################################
 """Provider TALES expression"""
 import zope.component
+import zope.event
 import zope.interface
 import zope.schema
-import zope.event
 from zope.location.interfaces import ILocation
 from zope.tales import expressions
 
@@ -51,7 +51,7 @@ class TALESProviderExpression(expressions.StringExpr):
     """
 
     def __call__(self, econtext):
-        name = super(TALESProviderExpression, self).__call__(econtext)
+        name = super().__call__(econtext)
         context = econtext.vars['context']
         request = econtext.vars['request']
         view = econtext.vars['view']

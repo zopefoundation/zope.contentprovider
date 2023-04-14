@@ -15,7 +15,8 @@
 
 import zope.component
 import zope.interface
-from zope.interface.interfaces import ObjectEvent, IObjectEvent
+from zope.interface.interfaces import IObjectEvent
+from zope.interface.interfaces import ObjectEvent
 from zope.publisher.interfaces import browser
 from zope.tales import interfaces
 
@@ -34,7 +35,7 @@ class UpdateNotCalled(RuntimeError):
     def __init__(self, *args):
         if not args:
             args = ('``update()`` was not called yet.',)
-        super(UpdateNotCalled, self).__init__(*args)
+        super().__init__(*args)
 
 
 class IBeforeUpdateEvent(IObjectEvent):
@@ -50,7 +51,7 @@ class BeforeUpdateEvent(ObjectEvent):
     """Default implementation of `IBeforeUpdateEvent`."""
 
     def __init__(self, provider, request=None):
-        super(BeforeUpdateEvent, self).__init__(provider)
+        super().__init__(provider)
         self.request = request
 
 
