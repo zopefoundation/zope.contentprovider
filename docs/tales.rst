@@ -199,6 +199,10 @@ We are now updating our original template to provide the message text:
   ... </html>
   ... ''')
 
+Let's make sure the template will be reloaded from disk
+
+  >>> FrontPage.index.__func__._v_last_read = 0
+
 Now we should get two message boxes with different text:
 
   >>> print(view().strip())
@@ -260,6 +264,7 @@ well:
   ...   </body>
   ... </html>
   ... ''')
+  >>> FrontPage.index.__func__._v_last_read = 0
 
 Now we should get two message boxes with different text and types:
 
