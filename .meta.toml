@@ -20,5 +20,6 @@ fail-under = 98
 
 [manifest]
 additional-rules = [
+    "include *.yaml",
     "recursive-include src *.zcml",
     ]
