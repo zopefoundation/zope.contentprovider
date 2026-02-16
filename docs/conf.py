@@ -14,12 +14,12 @@
 
 import os
 import sys
-
-import pkg_resources
+from datetime import datetime
+from importlib import metadata
 
 
 sys.path.append(os.path.abspath('../src'))
-rqmt = pkg_resources.require('zope.contentprovider')[0]
+rqmt = metadata.distribution('zope.contentprovider')
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -46,7 +46,7 @@ extensions = [
 templates_path = ['_templates']
 
 # The suffix of source filenames.
-source_suffix = '.rst'
+source_suffix = {'.rst': 'restructuredtext'}
 
 # The encoding of source files.
 # source_encoding = 'utf-8-sig'
@@ -56,7 +56,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'zope.contentprovider'
-copyright = '2015-2024, Zope Foundation and Contributors'
+copyright = f'2015-{datetime.now().year}, Zope Foundation and Contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
