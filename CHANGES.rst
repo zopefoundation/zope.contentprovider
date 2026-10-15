@@ -5,6 +5,8 @@
 7.1 (unreleased)
 ================
 
+- Drop support for Python 3.10.
+
 - Move package metadata from setup.py to pyproject.toml.
 
 - Add support for Python 3.14.
