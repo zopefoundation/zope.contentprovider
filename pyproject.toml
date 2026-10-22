@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zope.contentprovider"
-version = "7.1"
+version = "7.2.dev0"
 description = "Content Provider Framework for Zope Templates"
 license = "ZPL-2.1"
 classifiers = [
